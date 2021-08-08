@@ -70,14 +70,16 @@ public class Examples {
 
     LruV1<String, String> lruV1 = new LruV1<>(100);
     LruV2<String, String> lruV2 = new LruV2<>(100);
-    for (int i = 0; i < 1000; i++) {
-      lruV1.put(i + "", i + "");
+    for (int i = 0; i < 20000000; i++) {
+       //lruV1.put(i + "", i + "");
       lruV2.put(i + "", i + "");
     }
-    lruV1.put(991 + "", 991+ "");
-    String s1 = lruV1.get(985 + "");
-
-    String s2 = lruV2.get(986 + "");
+    // lruV1.put(991 + "", 991+ "");
+    // String s1 = lruV1.get(985 + "");
+    for (int i = 0; i < 200000000; i++) {
+      //String s3 = lruV1.get(991 + "");
+      String s2 = lruV2.get(986 + "");
+    }
     long e = System.currentTimeMillis();
     System.out.println(e - s);
   }

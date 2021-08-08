@@ -2,9 +2,10 @@ package org.jdkstack.jdkjson.core.cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * LinkedHashMap实现Lru算法.
+ * LinkedHashMap实现Lru算法(线程安全).
  *
  * <p>Lru 版本2 .
  *
@@ -13,7 +14,8 @@ import java.util.Map;
  * @author admin
  */
 public class LruV2<K, V> extends LinkedHashMap<K, V> {
-
+  /** . */
+  private final ReentrantLock lock = new ReentrantLock();
   /** lru最大缓存容量. */
   private final int limit;
 
@@ -42,5 +44,35 @@ public class LruV2<K, V> extends LinkedHashMap<K, V> {
   @Override
   public boolean removeEldestEntry(final Map.Entry<K, V> eldest) {
     return size() > limit;
+  }
+
+  @Override
+  public V get(Object key) {
+    lock.lock();
+    try {
+      return super.get(key);
+    } finally {
+      lock.unlock();
+    }
+  }
+
+  @Override
+  public V put(K key, V value) {
+    lock.lock();
+    try {
+      return super.put(key, value);
+    } finally {
+      lock.unlock();
+    }
+  }
+
+  @Override
+  public V remove(Object key) {
+    lock.lock();
+    try {
+      return super.remove(key);
+    } finally {
+      lock.unlock();
+    }
   }
 }
