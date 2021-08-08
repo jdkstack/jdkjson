@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// json5: https://spec.json5.org/
 public class JsonReaderV2 extends AbstractJsonParser {
   /** 正在处理的字符的位置. */
   private int index = 0;
@@ -56,18 +57,27 @@ public class JsonReaderV2 extends AbstractJsonParser {
       case 34:
         // 值是字符串.
         return string();
-      case 'F':
-      case 'f':
+        // / .
+      case 47:
+        return comment();
+        // F .
+      case 70:
+        // f .
+      case 102:
         index += 5;
         // 值是false.
         return false;
-      case 'T':
-      case 't':
+        // T .
+      case 84:
+        // t.
+      case 116:
         // 值是true.
         index += 4;
         return true;
-      case 'N':
-      case 'n':
+        // N .
+      case 78:
+        // n .
+      case 110:
         index += 4;
         // 值是null.
         return null;
@@ -99,6 +109,8 @@ public class JsonReaderV2 extends AbstractJsonParser {
         case 34:
           // 对象中的key,必须是字符串.
           final String key = string();
+          // 处理注释.
+          comment();
           // : ,对象的key和value之间必须是:,否则异常.
           colon();
           // 对象中的value,可能是7种类型的某一种,此处是递归方式解析.
@@ -114,6 +126,12 @@ public class JsonReaderV2 extends AbstractJsonParser {
           index++;
           // 将状态由1->2,表示有新的key:value对需要解析.
           state = 2;
+          break;
+          // / .
+        case 47:
+          // 如果是 / 则可能是注释.
+          Object comment = value();
+          System.out.println(comment);
           break;
           // } .
         case 125:
@@ -155,6 +173,12 @@ public class JsonReaderV2 extends AbstractJsonParser {
           index++;
           state = 2;
           // 数组还有其他的元素等待解析.
+          break;
+          // / .
+        case 47:
+          // 如果是 / 则可能是注释.
+          Object comment = value();
+          System.out.println(comment);
           break;
           // ] .
         case 93:
@@ -274,6 +298,46 @@ public class JsonReaderV2 extends AbstractJsonParser {
           return;
       }
     }
+  }
+
+  // 注释,目前并不完整,有bug.
+  private String comment() {
+    // 如果当前字符是/,则判断下一位是不是/ 或者 *.
+    final int c = sequence.charAt(index);
+    // 下一位是/,则是单行注释.
+    if (47 == c && 47 == sequence.charAt(index++)) {
+      // 记录/后的字符开始位置.
+      index++;
+      int start = index;
+      while (index < length) {
+        // 如果当前字符是/,则判断下一位是不是/ 或者 *.
+        final int next = sequence.charAt(index);
+        // 下一位是* 则是多行注释.
+        if ('\n' == next || ',' == next || ':' == next) {
+          //
+          return sequence.substring(start, index - 1);
+        }
+        index++;
+      }
+      // 下一位是* 则是多行注释.
+    } else if (47 == c && 42 == sequence.charAt(index++)) {
+      // 记录/后的字符开始位置.
+      index++;
+      int start = index;
+      while (index < length) {
+        // 如果当前字符是/,则判断下一位是不是/ 或者 *.
+        final int next = sequence.charAt(index);
+        // 下一位是* 则是多行注释.
+        if (42 == next) {
+          final int next1 = sequence.charAt(index++);
+          if (47 == next1) {
+            return sequence.substring(start, index - 1);
+          }
+        }
+        index++;
+      }
+    }
+    return "";
   }
 
   // 打印错误.
