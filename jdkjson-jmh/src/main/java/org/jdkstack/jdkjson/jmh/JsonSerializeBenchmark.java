@@ -5,6 +5,7 @@ import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
 import org.jdkstack.jdkjson.jmh.jsonlib.JsonLibUtil;
+import org.jdkstack.jdkjson.jmh.jsonsmart.JsonSmartUtil;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Level;
@@ -177,6 +178,20 @@ public class JsonSerializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonSmartList() {
+    JsonSmartUtil.bean2Json(list);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonWriterV2Map() {
     JsonWriterV1.map2serialize(map);
   }
@@ -235,5 +250,19 @@ public class JsonSerializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonLibMap() {
     JsonLibUtil.bean2JsonMap(map);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonSmartMap() {
+    JsonSmartUtil.bean2Json(map);
   }
 }
