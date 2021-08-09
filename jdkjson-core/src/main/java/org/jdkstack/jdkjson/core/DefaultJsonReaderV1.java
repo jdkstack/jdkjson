@@ -4,7 +4,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DefaultJsonReaderV1 implements JsonReader {
+public final class DefaultJsonReaderV1 implements JsonReader {
+
+  private DefaultJsonReaderV1() {
+    //
+  }
 
   /**
    * 需要跳过的字符.

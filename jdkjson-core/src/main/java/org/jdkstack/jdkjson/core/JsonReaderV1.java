@@ -16,7 +16,7 @@ import org.jdkstack.jdkjson.core.cache.LruV1;
  *
  * @author admin
  */
-public final class JsonReaderV1 extends DefaultJsonReaderV1 {
+public final class JsonReaderV1 {
   /** LRU缓存类. */
   private static final LruV1<String, Object> LRUV1 = new LruV1<>(100);
 
@@ -128,7 +128,7 @@ public final class JsonReaderV1 extends DefaultJsonReaderV1 {
         // 代表字符串开始.
       case '"':
         // 值是字符串.
-        obj = stringValue(sequence, ai);
+        obj = DefaultJsonReaderV1.stringValue(sequence, ai);
         break;
         // 代表 false开始.
       case 'F':
@@ -153,7 +153,7 @@ public final class JsonReaderV1 extends DefaultJsonReaderV1 {
         break;
         // 代表数字开始.
       default:
-        obj = number(sequence, ai);
+        obj = DefaultJsonReaderV1.number(sequence, ai);
         break;
     }
     return obj;
@@ -181,7 +181,7 @@ public final class JsonReaderV1 extends DefaultJsonReaderV1 {
     // 循环处理字符串序列的每一个字符.
     while (ai.get() < length && flag) {
       // 跳过一些不想处理的字符,包括换行,空白符等.
-      skip(sequence, ai);
+      DefaultJsonReaderV1.skip(sequence, ai);
       // 获取当前位置的字符.
       final char c = sequence.charAt(ai.get());
       // 处理每一个字符.
@@ -189,9 +189,9 @@ public final class JsonReaderV1 extends DefaultJsonReaderV1 {
           // 字符串开始.
         case '"':
           // 对象中的key.
-          final String key = stringValue(sequence, ai);
+          final String key = DefaultJsonReaderV1.stringValue(sequence, ai);
           // : .
-          colon(sequence, ai);
+          DefaultJsonReaderV1.colon(sequence, ai);
           // 对象中的value(可能是多种对象中的一种).
           final Object value = value(sequence, ai);
           // 添加.
@@ -237,7 +237,7 @@ public final class JsonReaderV1 extends DefaultJsonReaderV1 {
     // 循环处理每一个字符.
     while (ai.get() < length && flag) {
       // 跳过不需要处理的字符.
-      skip(sequence, ai);
+      DefaultJsonReaderV1.skip(sequence, ai);
       // 获取当前位置的字符.
       final char c = sequence.charAt(ai.get());
       // 处理每一个字符.
