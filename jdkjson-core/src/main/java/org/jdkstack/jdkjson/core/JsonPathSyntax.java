@@ -1,5 +1,12 @@
 package org.jdkstack.jdkjson.core;
 
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
 public final class JsonPathSyntax {
   /** the root object. */
   private static final char ROOT = '$';

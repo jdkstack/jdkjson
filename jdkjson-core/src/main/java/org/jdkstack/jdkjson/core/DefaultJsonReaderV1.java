@@ -4,6 +4,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
 public final class DefaultJsonReaderV1 {
 
   private DefaultJsonReaderV1() {
@@ -183,7 +190,7 @@ public final class DefaultJsonReaderV1 {
     // 之后获取一个字符.
     final char c = sequence.charAt(ai.get());
     // 如果这个在字符不是:.
-    if (c != ':') {
+    if (c != Ascii.ASCII_58) {
       throw new JsonRuntimeException("json不合法.");
     }
     // 位置+1.

@@ -1,5 +1,12 @@
 package org.jdkstack.jdkjson.core;
 
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
 public class JsonRuntimeException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;

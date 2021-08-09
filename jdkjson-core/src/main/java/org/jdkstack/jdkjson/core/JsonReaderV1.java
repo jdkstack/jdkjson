@@ -175,7 +175,7 @@ public final class JsonReaderV1 {
     // json字符串序列的长度.
     int length = sequence.length();
     // 创建一个json对象的表示.
-    Map<String, Object> obj = new HashMap<>();
+    Map<String, Object> obj = new HashMap<>(Ascii.ASCII_64);
     // 循环退出的标识.
     boolean flag = true;
     // 循环处理字符串序列的每一个字符.

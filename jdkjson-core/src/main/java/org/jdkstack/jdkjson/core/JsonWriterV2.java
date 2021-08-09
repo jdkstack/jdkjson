@@ -1,5 +1,12 @@
 package org.jdkstack.jdkjson.core;
 
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
 public class JsonWriterV2 {
 
   // 序列化map|list->json.

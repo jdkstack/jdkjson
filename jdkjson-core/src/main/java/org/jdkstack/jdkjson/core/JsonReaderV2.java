@@ -271,7 +271,8 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
     // 字符串数字.
     String substring = sequence.substring(start, index);
     Number number;
-    if (substring.contains(",")) {
+    // 如果包含逗号.
+    if (substring.contains(Constants.COMMA)) {
       number = new BigDecimal(substring);
     } else {
       number = new BigInteger(substring);

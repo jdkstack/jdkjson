@@ -19,6 +19,7 @@ public interface JsonReader {
   /**
    * .
    *
+   * @return String String.
    * @author admin
    */
   String comment();

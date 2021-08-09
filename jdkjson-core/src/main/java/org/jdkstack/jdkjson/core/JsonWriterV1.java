@@ -1,8 +1,14 @@
 package org.jdkstack.jdkjson.core;
 
-import java.util.List;
 import java.util.Map;
 
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
 public class JsonWriterV1 {
 
   // 序列化map->json.
@@ -37,7 +43,7 @@ public class JsonWriterV1 {
   }
 
   // 序列化list->json.
-  public static String list2serialize(List<Object> list) {
+  public static String list2serialize(final Iterable<Object> list) {
     StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
     buf.append('[');
     String separator = "";

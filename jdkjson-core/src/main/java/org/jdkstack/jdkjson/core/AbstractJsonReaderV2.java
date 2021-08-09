@@ -4,6 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
 public abstract class AbstractJsonReaderV2 implements JsonReader {
   /** 待处理的json字符串. */
   protected final String sequence;
@@ -94,7 +101,7 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
    */
   public Map<String, Object> object() {
     //  创建一个map代表对象.
-    Map<String, Object> obj = new HashMap<>();
+    Map<String, Object> obj = new HashMap<>(Ascii.ASCII_64);
     // 循环退出的标识.
     boolean flag = true;
     // 如果小于json字符串的最大长度.
@@ -264,13 +271,51 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
     index++;
   }
 
+  /**
+   * .
+   *
+   * <p>.
+   *
+   * @author admin
+   */
   public abstract void skip();
 
+  /**
+   * .
+   *
+   * <p>.
+   *
+   * @author admin
+   */
   public abstract void error();
 
+  /**
+   * .
+   *
+   * <p>.
+   *
+   * @return List List.
+   * @author admin
+   */
   public abstract List<Object> array();
 
+  /**
+   * .
+   *
+   * <p>.
+   *
+   * @return String String.
+   * @author admin
+   */
   public abstract String stringValue();
 
+  /**
+   * .
+   *
+   * <p>.
+   *
+   * @return Number Number.
+   * @author admin
+   */
   public abstract Number number();
 }
