@@ -1,5 +1,9 @@
 package org.jdkstack.jdkjson.core;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import org.jdkstack.jdkjson.core.cache.LruV1;
 
 /**
@@ -150,5 +154,132 @@ public class JsonReaderV2 extends AbstractJsonReader {
           break;
       }
     }
+  }
+
+  /**
+   * 返回一个数组.
+   *
+   * <p>json数组.
+   *
+   * @return List List.
+   * @author admin
+   */
+  @Override
+  public List<Object> array() {
+    // 创建一个list代表数组.
+    List<Object> arr = new ArrayList<>();
+    // 退出循环的标识.
+    boolean flag = true;
+    // 如果小于json字符串的最大长度.
+    while (index < length && flag) {
+      // 跳过所有空白.
+      skip();
+      // 获取一个字符.
+      final char c = sequence.charAt(index);
+      // 判断字符是什么?
+      switch (c) {
+          // [ .
+        case Ascii.ASCII_91:
+          // 移动一位字符.
+          // , .
+        case Ascii.ASCII_44:
+          index++;
+          // 数组还有其他的元素等待解析.
+          break;
+          // / .
+        case Ascii.ASCII_47:
+          // 如果是 / 则可能是注释.
+          value();
+          break;
+          // ] .
+        case Ascii.ASCII_93:
+          index++;
+          // 数组解析完毕,返回数组对象.
+          flag = false;
+          break;
+          // 其他字符.
+        default:
+          // 状态由0->1,表示这个数组的元素解析完毕.
+          // 数组的元素可能是7种值中的某一种,此处是递归方式解析.
+          Object value = value();
+          // 将元素添加到数组中.
+          arr.add(value);
+          break;
+      }
+    }
+    return arr;
+  }
+
+  /**
+   * 返回一个字符串.
+   *
+   * <p>json字符串(key或者字符串value).
+   *
+   * @return String String.
+   * @author admin
+   */
+  @Override
+  public String stringValue() {
+    // 字符串需要移动一位,从"下一位开始算起.
+    index++;
+    // 记录"后的字符开始位置.
+    int start = index;
+    // json字符串的表示.
+    String stringValue = null;
+    // 退出循环的标识.
+    boolean flag = true;
+    while (index < length && flag) {
+      final char c = sequence.charAt(index);
+      index++;
+      // 转义字符 \ .
+      if (Ascii.ASCII_92 == c) {
+        char next = sequence.charAt(index);
+        // 跳过转义字符.
+        escape(next);
+      }
+      // " ,如果当前字符是双引号,则截取start和当前位置之间的字符.
+      if (Ascii.ASCII_34 == c) {
+        // 返回这个区间的字符串.
+        stringValue = sequence.substring(start, index - 1);
+        // 将循环退出标识设置成false.
+        flag = false;
+      }
+    }
+    return stringValue;
+  }
+
+  /**
+   * json 数字.
+   *
+   * <p>json数字.
+   *
+   * @return Number Number.
+   * @author admin
+   */
+  @Override
+  public Number number() {
+    boolean contains = true;
+    final int start = index;
+    while (index < length) {
+      final char c = sequence.charAt(index);
+      if (Ascii.ASCII_44 == c) {
+        // 字符, 代表数字结束, 停止循环.
+        break;
+      }
+      if (Ascii.ASCII_46 == c) {
+        // 字符. 代表小数.
+        contains = false;
+      }
+      index++;
+    }
+    // 字符串数字.
+    String substring = sequence.substring(start, index);
+    Number number;
+    if (contains) {
+      number = new BigInteger(substring);
+    } else {
+      number = new BigDecimal(substring);
+    }
+    return number;
   }
 }
