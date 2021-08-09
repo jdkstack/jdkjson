@@ -143,25 +143,21 @@ public class JsonReaderV2 extends AbstractJsonReader {
    */
   @Override
   public void error() {
+    // 系统换行符.
+    final String lineSeparator = System.lineSeparator();
+    // 异常行-异常字符的长度.
+    int len = index - position;
     final StringBuilder sb = new StringBuilder(Ascii.ASCII_64);
-    sb.append("Parse error at row: ")
-        .append(line)
-        .append(", column: ")
-        .append(index - position + 1 + 1);
-    sb.append("\r\n");
-    int n = position + 1;
-    while (n < sequence.length()) {
-      char c = sequence.charAt(n);
-      if (Ascii.ASCII_10 == c) {
-        break;
-      } else {
-        n++;
-        sb.append(sequence.charAt(n));
-      }
+    sb.append("Parse error at row: ").append(line).append(", ").append("column: ").append(len);
+    sb.append(lineSeparator);
+    // 从当前行的头-异常位置.
+    for (int i = position; i < len; i++) {
+      sb.append(sequence.charAt(i));
     }
-    sb.append("\r\n");
-    sb.append("-".repeat(Math.max(0, index - position + 1)));
-    sb.append("^");
+    sb.append(lineSeparator);
+    // 重复打印-.
+    sb.append("-".repeat(Math.max(0, len)));
+    sb.append("⇡").append(lineSeparator);
   }
 
   /**
