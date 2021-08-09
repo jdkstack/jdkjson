@@ -187,6 +187,7 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
    * @return String 注释.
    * @author admin
    */
+  @Override
   public String comment() {
     // 如果当前字符是/,则判断下一位是不是/ 或者 *.
     final char c = sequence.charAt(index);
@@ -252,11 +253,12 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
    *
    * @author admin
    */
+  @Override
   public void colon() {
     skip();
-    final char n = sequence.charAt(index);
+    final char c = sequence.charAt(index);
     // : .
-    if (Ascii.ASCII_58 != n) {
+    if (Ascii.ASCII_58 != c) {
       error();
     }
     index++;

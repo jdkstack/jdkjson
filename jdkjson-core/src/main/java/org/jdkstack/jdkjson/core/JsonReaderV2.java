@@ -116,6 +116,7 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
     // 重复打印-.
     sb.append("-".repeat(Math.max(0, len)));
     sb.append("⇡").append(lineSeparator);
+    throw new JsonRuntimeException(sb.toString());
   }
 
   /**
@@ -258,7 +259,6 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
    */
   @Override
   public Number number() {
-    boolean contains = true;
     final int start = index;
     while (index < length) {
       final char c = sequence.charAt(index);
@@ -266,19 +266,15 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
         // 字符, 代表数字结束, 停止循环.
         break;
       }
-      if (Ascii.ASCII_46 == c) {
-        // 字符. 代表小数.
-        contains = false;
-      }
       index++;
     }
     // 字符串数字.
     String substring = sequence.substring(start, index);
     Number number;
-    if (contains) {
-      number = new BigInteger(substring);
-    } else {
+    if (substring.contains(",")) {
       number = new BigDecimal(substring);
+    } else {
+      number = new BigInteger(substring);
     }
     return number;
   }

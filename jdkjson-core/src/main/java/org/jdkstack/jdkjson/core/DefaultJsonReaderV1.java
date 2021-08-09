@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class DefaultJsonReaderV1 implements JsonReader {
+public final class DefaultJsonReaderV1 {
 
   private DefaultJsonReaderV1() {
     //
@@ -181,10 +181,10 @@ public final class DefaultJsonReaderV1 implements JsonReader {
     // 先跳过字符.
     skip(sequence, ai);
     // 之后获取一个字符.
-    final char n = sequence.charAt(ai.get());
+    final char c = sequence.charAt(ai.get());
     // 如果这个在字符不是:.
-    if (n != ':') {
-      //
+    if (c != ':') {
+      throw new JsonRuntimeException("json不合法.");
     }
     // 位置+1.
     ai.getAndIncrement();

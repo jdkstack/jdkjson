@@ -14,7 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author admin
  */
 public class LruV2<K, V> extends LinkedHashMap<K, V> {
-  private static final long serialVersionUID = -1;
+
+  private static final long serialVersionUID = 1L;
   /** . */
   private final ReentrantLock lock = new ReentrantLock();
   /** lru最大缓存容量. */
@@ -109,30 +110,5 @@ public class LruV2<K, V> extends LinkedHashMap<K, V> {
     } finally {
       lock.unlock();
     }
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @return o o.
-   * @author admin
-   */
-  @Override
-  public boolean equals(final Object o) {
-    return super.equals(o);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Override
-  public int hashCode() {
-    return super.hashCode();
   }
 }

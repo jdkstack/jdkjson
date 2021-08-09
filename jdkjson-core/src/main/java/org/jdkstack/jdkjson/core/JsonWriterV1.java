@@ -41,16 +41,15 @@ public class JsonWriterV1 {
     StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
     buf.append('[');
     String separator = "";
-    for (int i = 0; i < list.size(); i++) {
+    for (Object o : list) {
       buf.append(separator);
-      Object value = list.get(i);
-      if (value instanceof String) {
+      if (o instanceof String) {
         buf.append('"');
-        buf.append(value);
+        buf.append(o);
         buf.append('"');
       } else {
         // 需要递归处理.
-        buf.append(value);
+        buf.append(o);
       }
       separator = ",";
     }
