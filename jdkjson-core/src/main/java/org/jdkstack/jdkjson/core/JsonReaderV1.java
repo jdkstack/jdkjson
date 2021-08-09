@@ -1,5 +1,7 @@
 package org.jdkstack.jdkjson.core;
 
+import org.jdkstack.jdkjson.core.cache.LruV1;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -8,39 +10,72 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class JsonReaderV1 extends AbstractJsonParser {
-  // 对象
-  private static Map<String, Object> object(String sequence, AtomicInteger i) {
-    i.getAndIncrement();
+/**
+ * Json反序列化第1版.
+ *
+ * <p>采用静态方法方式解析(需要json校验处理).
+ *
+ * <p>json5: https://spec.json5.org/.
+ *
+ * @author admin
+ */
+public final class JsonReaderV1 {
+
+  private static final LruV1<String, Object> LRUV1 = new LruV1<>(100);
+
+  private JsonReaderV1() {
+    //
+  }
+
+  /**
+   * 返回一个对象.
+   *
+   * <p>json对象.
+   *
+   * @param sequence json字符串序列.
+   * @param ai json字符串序列当前需要处理的字符位置.
+   * @return Map Map.
+   * @author admin
+   */
+  private static Map<String, Object> object(final String sequence, final AtomicInteger ai) {
+    // 位置增加1.
+    ai.getAndIncrement();
+    // json字符串序列的长度.
     int length = sequence.length();
+    // 创建一个json对象的表示.
     Map<String, Object> obj = new HashMap<>();
-    int state = 0;
+    // 循环退出的标识.
     boolean flag = true;
-    while (i.get() < length && flag) {
-      skipWhiteSpace(sequence, i);
-      final int c = sequence.charAt(i.get());
+    // 循环处理字符串序列的每一个字符.
+    while (ai.get() < length && flag) {
+      // 跳过一些不想处理的字符,包括换行,空白符等.
+      skip(sequence, ai);
+      // 获取当前位置的字符.
+      final char c = sequence.charAt(ai.get());
+      // 处理每一个字符.
       switch (c) {
+          // 字符串开始.
         case '"':
           // 对象中的key.
-          final String key = string(sequence, i);
+          final String key = stringValue(sequence, ai);
           // : .
-          colon(sequence, i);
-          // 对象中的value.
-          final Object value = value(sequence, i);
+          colon(sequence, ai);
+          // 对象中的value(可能是多种对象中的一种).
+          final Object value = value(sequence, ai);
           // 添加.
           obj.put(key, value);
-          state = 1;
           break;
+          // 代表存在下一个key value对象.
         case ',':
-          i.getAndIncrement();
-          state = 2;
+          ai.getAndIncrement();
           break;
+          // 代表对象结束.
         case '}':
-          i.getAndIncrement();
-          // return obj;
+          ai.getAndIncrement();
           // 结束循环.
           flag = false;
           break;
+          // 其他字符.
         default:
           break;
       }
@@ -48,29 +83,45 @@ public class JsonReaderV1 extends AbstractJsonParser {
     return obj;
   }
 
-  // 数组.
-  private static List<Object> array(String sequence, AtomicInteger i) {
-    i.getAndIncrement();
+  /**
+   * 返回一个数组.
+   *
+   * <p>json数组.
+   *
+   * @param sequence json字符串序列.
+   * @param ai json字符串序列当前需要处理的字符位置.
+   * @return List List.
+   * @author admin
+   */
+  private static List<Object> array(final String sequence, final AtomicInteger ai) {
+    // 位置+1.
+    ai.getAndIncrement();
+    // json字符串长度.
     int length = sequence.length();
+    // json数组的对象表示.
     List<Object> arr = new ArrayList<>();
-    int state = 0;
+    // 退出循环的标识.
     boolean flag = true;
-    while (i.get() < length && flag) {
-      skipWhiteSpace(sequence, i);
-      final int c = sequence.charAt(i.get());
+    // 循环处理每一个字符.
+    while (ai.get() < length && flag) {
+      // 跳过不需要处理的字符.
+      skip(sequence, ai);
+      // 获取当前位置的字符.
+      final char c = sequence.charAt(ai.get());
+      // 处理每一个字符.
       switch (c) {
+          // 代表存在下一个数组元素.
         case ',':
-          i.getAndIncrement();
-          state = 2;
+          ai.getAndIncrement();
           break;
+          // 数组结束.
         case ']':
-          i.getAndIncrement();
+          ai.getAndIncrement();
           flag = false;
-          // return arr;
           break;
+          // 其他字符.
         default:
-          state = 1;
-          Object value = value(sequence, i);
+          Object value = value(sequence, ai);
           arr.add(value);
           break;
       }
@@ -78,33 +129,62 @@ public class JsonReaderV1 extends AbstractJsonParser {
     return arr;
   }
 
-  // 字符串.
-  private static String string(String sequence, AtomicInteger i) {
+  /**
+   * 返回一个字符串.
+   *
+   * <p>json字符串(key或者字符串value).
+   *
+   * @param sequence json字符串序列.
+   * @param ai json字符串序列当前需要处理的字符位置.
+   * @return String String.
+   * @author admin
+   */
+  private static String stringValue(final String sequence, final AtomicInteger ai) {
     // 字符串需要移动一位,从"下一位开始算起.
-    i.incrementAndGet();
+    ai.incrementAndGet();
     // 记录"后的字符开始位置.
-    int start = i.get();
+    int start = ai.get();
+    // json字符串的长度.
     int length = sequence.length();
-    while (i.get() < length) {
-      final int c = sequence.charAt(i.get());
-      i.incrementAndGet();
+    // json字符串的表示.
+    String stringValue = null;
+    // 退出循环的标识.
+    boolean flag = true;
+    // 处理每一个字符.
+    while (ai.get() < length && flag) {
+      // 获取当前位置的字符.
+      final char c = sequence.charAt(ai.get());
+      // 位置+1.
+      ai.incrementAndGet();
       // 转义字符 \ .
-      if (92 == c) {
-        char next = sequence.charAt(i.get());
+      if (Ascii.ASCII_92 == c) {
+        char next = sequence.charAt(ai.get());
         // 跳过转义字符.
-        escape(next, i);
+        escape(next, ai);
         // " ,如果当前字符是双引号,则截取start和当前位置之间的字符.
-      } else if (34 == c) {
+      }
+      if (Ascii.ASCII_34 == c) {
         // 返回这个区间的字符串.
-        return sequence.substring(start, i.get() - 1);
+        stringValue = sequence.substring(start, ai.get() - 1);
+        // 将循环退出标识设置成false.
+        flag = false;
       }
     }
-    throw new RuntimeException("");
+    return stringValue;
   }
 
-  // 转义.
-  private static void escape(final int c, AtomicInteger i) {
+  /**
+   * 返回一个字符串.
+   *
+   * <p>json字符串(key或者字符串value).
+   *
+   * @param c json字符.
+   * @param ai json字符串序列当前需要处理的字符位置.
+   * @author admin
+   */
+  private static void escape(final char c, final AtomicInteger ai) {
     switch (c) {
+        // 对如下字符进行转义处理.
       case '"':
       case '\\':
       case '/':
@@ -114,150 +194,305 @@ public class JsonReaderV1 extends AbstractJsonParser {
       case 'r':
       case 't':
       case 'u':
-        i.incrementAndGet();
+        // 位置+1,跳过这个字符,当作普通字符对待即可.
+        ai.incrementAndGet();
         break;
+        // 其他字符正常处理.
       default:
         break;
     }
   }
 
-  // 冒号.
-  private static void colon(String sequence, AtomicInteger i) {
-    skipWhiteSpace(sequence, i);
-    final int n = sequence.charAt(i.get());
+  /**
+   * 校验key value 之间的冒号.
+   *
+   * <p>json字符串(key和value之间必须是冒号).
+   *
+   * @param sequence json字符.
+   * @param ai json字符串序列当前需要处理的字符位置.
+   * @author admin
+   */
+  private static void colon(final String sequence, final AtomicInteger ai) {
+    // 先跳过字符.
+    skip(sequence, ai);
+    // 之后获取一个字符.
+    final char n = sequence.charAt(ai.get());
+    // 如果这个在字符不是:.
     if (n != ':') {
-      throw new RuntimeException("非法.");
+      //
     }
-    i.getAndIncrement();
+    // 位置+1.
+    ai.getAndIncrement();
   }
 
-  // 反序列化json->map.
-  public static Object deserializeLru(String sequence) {
-    AtomicInteger i = new AtomicInteger(0);
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串list|map.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object deserializeLru(final String sequence) {
+    // 创建一个公用的位置对象.
+    AtomicInteger ai = new AtomicInteger(0);
+    // 查询LRU缓存是否存在.
     Object obj = LRUV1.get(sequence);
-    if (obj != null) {
-      return obj;
-    } else {
-      Object value = value(sequence, i);
+    // 不存在.
+    if (obj == null) {
+      // 解析json字符串,返回对象object.
+      Object value = value(sequence, ai);
+      // 放入LRU缓存中.
       LRUV1.put(sequence, value);
-      return value;
+      // 赋值当前对象object.
+      obj = value;
     }
+    return obj;
   }
 
-  // 反序列化json->list.
-  public static Object deserialize2ListLru(String sequence) {
-    AtomicInteger i = new AtomicInteger(0);
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串list.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object deserialize2ListLru(final String sequence) {
+    // 创建一个公用的位置对象.
+    AtomicInteger ai = new AtomicInteger(0);
+    // 查询LRU缓存是否存在.
     Object obj = LRUV1.get(sequence);
-    if (obj != null) {
-      return obj;
-    } else {
-      Object value = array(sequence, i);
+    // 不存在.
+    if (obj == null) {
+      // 解析json字符串,返回数组List.
+      Object value = array(sequence, ai);
+      // 放入LRU缓存中.
       LRUV1.put(sequence, value);
-      return value;
+      // 赋值当前数组List.
+      obj = value;
     }
+    return obj;
   }
 
-  // 反序列化json->map.
-  public static Object deserialize2MapLru(String sequence) {
-    AtomicInteger i = new AtomicInteger(0);
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串map.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object deserialize2MapLru(final String sequence) {
+    // 创建一个公用的位置对象.
+    AtomicInteger ai = new AtomicInteger(0);
+    // 查询LRU缓存是否存在.
     Object obj = LRUV1.get(sequence);
-    if (obj != null) {
-      return obj;
-    } else {
-      Object value = object(sequence, i);
+    // 不存在.
+    if (obj == null) {
+      // 解析json字符串,返回对象Map.
+      Object value = object(sequence, ai);
+      // 放入LRU缓存中.
       LRUV1.put(sequence, value);
-      return value;
+      // 赋值当前对象Map.
+      obj = value;
     }
-  }
-  // 反序列化json->map.
-  public static Object deserialize(String sequence) {
-    AtomicInteger i = new AtomicInteger(0);
-    return value(sequence, i);
+    return obj;
   }
 
-  // 反序列化json->list.
-  public static Object deserialize2List(String sequence) {
-    AtomicInteger i = new AtomicInteger(0);
-    return array(sequence, i);
+  /**
+   * 反序列化.
+   *
+   * <p>json字符串list|map.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object deserialize(final String sequence) {
+    // 创建一个公用的位置对象.
+    AtomicInteger ai = new AtomicInteger(0);
+    // 返回匹配的对象.
+    return value(sequence, ai);
   }
 
-  // 反序列化json->map.
-  public static Object deserialize2Map(String sequence) {
-    AtomicInteger i = new AtomicInteger(0);
-    return object(sequence, i);
+  /**
+   * 反序列化.
+   *
+   * <p>json字符串list.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object deserialize2List(final String sequence) {
+    // 创建一个公用的位置对象.
+    AtomicInteger ai = new AtomicInteger(0);
+    // 返回数组的表示List.
+    return array(sequence, ai);
   }
 
-  public static void skipWhiteSpace(String sequence, AtomicInteger i) {
+  /**
+   * 反序列化.
+   *
+   * <p>json字符串map.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object deserialize2Map(final String sequence) {
+    // 创建一个公用的位置对象.
+    AtomicInteger ai = new AtomicInteger(0);
+    // 返回对象的表示Map.
+    return object(sequence, ai);
+  }
+
+  /**
+   * 需要跳过的字符.
+   *
+   * <p>json字符串map.
+   *
+   * @param sequence json字符.
+   * @param ai ai.
+   * @author admin
+   */
+  public static void skip(final String sequence, final AtomicInteger ai) {
     // 字符串总长度,循环到-1.
     int length = sequence.length();
-    while (i.get() < length) {
-      // 拿到字符后.
-      char c = sequence.charAt(i.get());
+    // 循环退出的标识.
+    boolean flag = true;
+    // 循环处理每一个字符.
+    while (ai.get() < length && flag) {
+      // 获取当前字符.
+      char c = sequence.charAt(ai.get());
+      // 处理每一个字符.
       switch (c) {
+          // 跳过字符.
         case '\t':
         case '\r':
         case '\n':
         case ' ':
-          i.getAndIncrement();
+          // 位置+1,代表跳过当前字符.
+          ai.getAndIncrement();
           break;
         default:
-          return;
+          // 遇到其他字符,停止循环.
+          flag = false;
+          break;
       }
     }
   }
 
-  // value七种值.
-  public static Object value(String sequence, AtomicInteger i) {
-    final int c = sequence.charAt(i.get());
+  /**
+   * json所有value值.
+   *
+   * <p>json字符串map.
+   *
+   * @param sequence json字符.
+   * @param ai ai.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Object value(final String sequence, final AtomicInteger ai) {
+    // 获取当前字符.
+    final char c = sequence.charAt(ai.get());
+    // 返回对象表示.
+    Object obj;
+    // 处理每一个字符.
     switch (c) {
+        // 代表对象开始.
       case '{':
         // 值是对象.
-        return object(sequence, i);
+        obj = object(sequence, ai);
+        break;
+        // 代表数组开始.
       case '[':
         // 值是数组.
-        return array(sequence, i);
+        obj = array(sequence, ai);
+        break;
+        // 代表字符串开始.
       case '"':
         // 值是字符串.
-        return string(sequence, i);
+        obj = stringValue(sequence, ai);
+        break;
+        // 代表 false开始.
+      case 'F':
       case 'f':
-        i.getAndAdd(5);
+        ai.getAndAdd(Ascii.ASCII_5);
         // 值是false.
-        return false;
+        obj = false;
+        break;
+        // 代表 true开始.
+      case 'T':
       case 't':
         // 值是true.
-        i.getAndAdd(4);
-        return true;
+        ai.getAndAdd(Ascii.ASCII_4);
+        obj = true;
+        break;
+        // 代表null开始.
+      case 'N':
       case 'n':
-        i.getAndAdd(4);
+        ai.getAndAdd(Ascii.ASCII_4);
         // 值是null.
-        return null;
+        obj = null;
+        break;
+        // 代表数字开始.
       default:
-        return number(sequence, i);
+        obj = number(sequence, ai);
+        break;
     }
+    return obj;
   }
 
-  // 数字.
-  private static Number number(String sequence, AtomicInteger i) {
+  /**
+   * json 数字.
+   *
+   * <p>json数字.
+   *
+   * @param sequence json字符.
+   * @param ai ai.
+   * @return Number Number.
+   * @author admin
+   */
+  private static Number number(final String sequence, final AtomicInteger ai) {
+    // json 字符串的长度.
     int length = sequence.length();
+    // 数字是不是小数.
     boolean contains = true;
-    final int start = i.get();
-    while (i.get() < length) {
-      final int c = sequence.charAt(i.get());
-      if (44 == c) {
+    // 开始位置.
+    final int start = ai.get();
+    // 循环处理每一个字符.
+    while (ai.get() < length) {
+      // 获取当前字符.
+      final char c = sequence.charAt(ai.get());
+      // 如果是,则退出循环.
+      if (Ascii.ASCII_44 == c) {
         // 字符, 代表数字结束, 停止循环.
         break;
-      } else if (46 == c) {
+      }
+      // 如果是. 则是小数.
+      if (Ascii.ASCII_46 == c) {
         // 字符. 代表小数.
         contains = false;
       }
-      i.incrementAndGet();
+      // 位置需要+1.
+      ai.incrementAndGet();
     }
     // 字符串数字.
-    String substring = sequence.substring(start, i.get());
+    String substring = sequence.substring(start, ai.get());
+    Number number;
+    // 采用最大范围对象.
     if (contains) {
-      return new BigInteger(substring);
+      // 如果是整数.
+      number = new BigInteger(substring);
     } else {
-      return new BigDecimal(substring);
+      // 如果是小数.
+      number = new BigDecimal(substring);
     }
+    return number;
   }
 }

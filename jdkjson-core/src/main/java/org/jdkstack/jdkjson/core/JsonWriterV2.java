@@ -1,6 +1,6 @@
 package org.jdkstack.jdkjson.core;
 
-public class JsonWriterV2 extends AbstractJsonParser {
+public class JsonWriterV2 {
 
   // 序列化map|list->json.
   public String serialize() {

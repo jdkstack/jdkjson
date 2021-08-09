@@ -39,8 +39,8 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 5, time = 1)
 @Measurement(iterations = 5, time = 1)
 public class JsonSerializeBenchmark {
-  Map<String, Object> map = new HashMap<>();
-  List<Object> list = new ArrayList<>();
+  private final Map<String, Object> map = new HashMap<>();
+  private final List<Object> list = new ArrayList<>();
 
   /**
    * This is a method description.
