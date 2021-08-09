@@ -53,52 +53,6 @@ public class JsonReaderV2 extends AbstractJsonReader {
   }
 
   /**
-   * 使用LRU算法优化反序列化.
-   *
-   * <p>json字符串list.
-   *
-   * @return Object Object.
-   * @author admin
-   */
-  public Object deserialize2ListLru() {
-    // 查询LRU缓存是否存在.
-    Object obj = LRUV1.get(sequence);
-    // 不存在.
-    if (obj == null) {
-      // 解析json字符串,返回数组List.
-      Object value = array();
-      // 放入LRU缓存中.
-      LRUV1.put(sequence, value);
-      // 赋值当前数组List.
-      obj = value;
-    }
-    return obj;
-  }
-
-  /**
-   * 使用LRU算法优化反序列化.
-   *
-   * <p>json字符串map.
-   *
-   * @return Object Object.
-   * @author admin
-   */
-  public Object deserialize2MapLru() {
-    // 查询LRU缓存是否存在.
-    Object obj = LRUV1.get(sequence);
-    // 不存在.
-    if (obj == null) {
-      // 解析json字符串,返回对象Map.
-      Object value = object();
-      // 放入LRU缓存中.
-      LRUV1.put(sequence, value);
-      // 赋值当前对象Map.
-      obj = value;
-    }
-    return obj;
-  }
-
-  /**
    * 反序列化.
    *
    * <p>json字符串list|map.
