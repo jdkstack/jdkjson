@@ -111,26 +111,15 @@ public abstract class AbstractJsonReader implements JsonReader {
           // { .
         case Ascii.ASCII_123:
           // 字符串需要移动一位,从"下一位开始算起.
-          index++;
-          break;
-          // " .
-        case Ascii.ASCII_34:
-          // 对象中的key,必须是字符串.
-          final String key = stringValue();
-          // 处理注释.
-          comment();
-          // : ,对象的key和value之间必须是:,否则异常.
-          colon();
-          // 对象中的value,可能是7种类型的某一种,此处是递归方式解析.
-          // 将key和value添加到对象中.
-          obj.put(key, value());
-          // 状态由0->1,表示这个key:value对解析完毕.
-          break;
           // , .
         case Ascii.ASCII_44:
           // , 表示还有其他的key:value对,移动一位字符.
           index++;
           // 将状态由1->2,表示有新的key:value对需要解析.
+          break;
+          // " .
+        case Ascii.ASCII_34:
+          extracted(obj);
           break;
           // / .
         case Ascii.ASCII_47:
@@ -152,6 +141,19 @@ public abstract class AbstractJsonReader implements JsonReader {
       }
     }
     return obj;
+  }
+
+  private void extracted(Map<String, Object> obj) {
+    // 对象中的key,必须是字符串.
+    final String key = stringValue();
+    // 处理注释.
+    comment();
+    // : ,对象的key和value之间必须是:,否则异常.
+    colon();
+    // 对象中的value,可能是7种类型的某一种,此处是递归方式解析.
+    // 将key和value添加到对象中.
+    obj.put(key, value());
+    // 状态由0->1,表示这个key:value对解析完毕.
   }
 
   /**
@@ -342,15 +344,12 @@ public abstract class AbstractJsonReader implements JsonReader {
     while (index < length && flag) {
       // 如果当前字符是/,则判断下一位是不是/ 或者 *.
       final int next = sequence.charAt(index);
-      // 下一位是* 则是多行注释.
-      if (Ascii.ASCII_42 == next) {
-        index++;
-        final int next1 = sequence.charAt(index);
-        if (Ascii.ASCII_47 == next1) {
-          comment = sequence.substring(start, index - 1);
-          flag = false;
-        }
+      // 下一位是*和/ 多行注释结尾.
+      if (Ascii.ASCII_42 == next && Ascii.ASCII_47 == sequence.charAt(index + 1)) {
+        comment = sequence.substring(start, index - 1);
+        flag = false;
       }
+      // 跳过多行注释的/.
       index++;
     }
     return comment;
