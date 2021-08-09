@@ -20,15 +20,21 @@ public class LruV2<K, V> extends LinkedHashMap<K, V> {
   private final int limit;
 
   /**
-   * This is a method description.
+   * 扩容因子和容量需要手动计算.
    *
-   * <p>Another description after blank line.
+   * <p>如果容量50(阈值64),扩容因子0.75f,则>48时开始扩容.
+   *
+   * <p>如果容量100(阈值128),扩容因子0.75f,则>96开始扩容.
+   *
+   * <p>例子: 容量100,因子0.8125f,阈值等于104.容量50,因子0.8125f,阈值等于52.
+   *
+   * <p>扩容算法比较粗,需要重新考虑.
    *
    * @param limitParam limitParam.
    * @author admin
    */
   public LruV2(final int limitParam) {
-    super(limitParam, 0.75f, true);
+    super(limitParam, Constants.LOADFACTOR, true);
     this.limit = limitParam;
   }
 
@@ -46,6 +52,15 @@ public class LruV2<K, V> extends LinkedHashMap<K, V> {
     return size() > limit;
   }
 
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @param key key.
+   * @return V v.
+   * @author admin
+   */
   @Override
   public V get(Object key) {
     lock.lock();
@@ -56,6 +71,16 @@ public class LruV2<K, V> extends LinkedHashMap<K, V> {
     }
   }
 
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @param key key.
+   * @param value value.
+   * @return V v.
+   * @author admin
+   */
   @Override
   public V put(K key, V value) {
     lock.lock();
@@ -66,6 +91,15 @@ public class LruV2<K, V> extends LinkedHashMap<K, V> {
     }
   }
 
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @param key key.
+   * @return V v.
+   * @author admin
+   */
   @Override
   public V remove(Object key) {
     lock.lock();

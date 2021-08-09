@@ -21,6 +21,6 @@ public class JsonParserUtil {
 
   public static Object json2BeanMap(String jsonStr) {
     JsonReaderV2 jsonParserV2 = new JsonReaderV2(jsonStr);
-    return jsonParserV2.deserialize2List();
+    return jsonParserV2.deserialize2Map();
   }
 }

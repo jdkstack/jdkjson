@@ -1,13 +1,13 @@
 package org.jdkstack.jdkjson.examples;
 
+import org.jdkstack.jdkjson.core.JsonReaderV1;
 import org.jdkstack.jdkjson.core.JsonReaderV2;
-import org.jdkstack.jdkjson.core.cache.LruV1;
-import org.jdkstack.jdkjson.core.cache.LruV2;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 public class Examples {
 
@@ -34,11 +34,31 @@ public class Examples {
     }
     String msg = sb.toString();
 
-    JsonReaderV2 jsonStateMachine = new JsonReaderV2(msg);
+    /*    String arr =
+        "[{\"age\":" + new Random().nextInt(10000)+ ",\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}]\n";
+    JsonReaderV2 jsonStateMachine = new JsonReaderV2(arr);
 
-    jsonStateMachine.deserialize();
-    String arr =
-        "[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}]\n";
+    jsonStateMachine.deserialize();*/
+
+    for (int i = 0; i < 2000000; i++) {
+      String map =
+          "{\"age\":"
+              + new Random().nextInt(80)
+              + ",\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"friends\":[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}],\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"邵同学\"}";
+      JsonReaderV2 jsonParserV2 = new JsonReaderV2(map);
+       jsonParserV2.deserializeLru();
+
+      //JsonReaderV1.deserializeLru(map);
+    }
+
+/*    for (int i = 0; i < 2000000; i++) {
+      String list =
+              "[{\"age\":"
+                      + new Random().nextInt(100)
+                      + ",\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}]";
+
+      JsonReaderV1.deserialize2List(list);
+    }*/
     /*
     Map<String, Object> map = new HashMap<>();
     map.put("age", 24);
@@ -68,10 +88,10 @@ public class Examples {
 
     // List<String> pathList = using(conf).parse(json).read("$..age");
 
-    LruV1<String, String> lruV1 = new LruV1<>(100);
+    /*  LruV1<String, String> lruV1 = new LruV1<>(100);
     LruV2<String, String> lruV2 = new LruV2<>(100);
     for (int i = 0; i < 20000000; i++) {
-       //lruV1.put(i + "", i + "");
+      // lruV1.put(i + "", i + "");
       lruV2.put(i + "", i + "");
     }
     // lruV1.put(991 + "", 991+ "");
@@ -79,7 +99,7 @@ public class Examples {
     for (int i = 0; i < 200000000; i++) {
       //String s3 = lruV1.get(991 + "");
       String s2 = lruV2.get(986 + "");
-    }
+    }*/
     long e = System.currentTimeMillis();
     System.out.println(e - s);
   }

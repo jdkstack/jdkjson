@@ -19,7 +19,7 @@ public class LruV1<K, V> implements Cache<K, V> {
   /** 考虑用CAS代替lock. 其他数据结构代替HashMap和ArrayDeque. */
   private final ReentrantLock lock = new ReentrantLock();
   /** 保存value. */
-  private final Map<K, V> map = new HashMap<>();
+  private final Map<K, V> map;
   /** 保存key(保存顺序,当获取元素时,将当前元素放到最前面位置). */
   private final Deque<K> queue = new ArrayDeque<>();
   /** lru最大缓存容量. */
@@ -35,6 +35,7 @@ public class LruV1<K, V> implements Cache<K, V> {
    */
   public LruV1(final int limitParam) {
     this.limit = limitParam;
+    this.map = new HashMap<>(limit, Constants.LOADFACTOR);
   }
 
   /**

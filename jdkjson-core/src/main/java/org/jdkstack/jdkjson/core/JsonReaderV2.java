@@ -25,6 +25,41 @@ public class JsonReaderV2 extends AbstractJsonParser {
     // 字符串总长度,循环到-1.
     this.length = sequence.length();
   }
+  // 反序列化json->map|list.
+  public Object deserializeLru() {
+    Object obj = LRUV1.get(sequence);
+    if (obj != null) {
+      return obj;
+    } else {
+      Object value = value();
+      LRUV1.put(sequence, value);
+      return value;
+    }
+  }
+
+  // 反序列化json->list.
+  public Object deserialize2ListLru() {
+    Object obj = LRUV1.get(sequence);
+    if (obj != null) {
+      return obj;
+    } else {
+      Object value = array();
+      LRUV1.put(sequence, value);
+      return value;
+    }
+  }
+
+  // 反序列化json->map.
+  public Object deserialize2MapLru() {
+    Object obj = LRUV1.get(sequence);
+    if (obj != null) {
+      return obj;
+    } else {
+      Object value = object();
+      LRUV1.put(sequence, value);
+      return value;
+    }
+  }
 
   // 反序列化json->map|list.
   public Object deserialize() {
@@ -130,8 +165,7 @@ public class JsonReaderV2 extends AbstractJsonParser {
           // / .
         case 47:
           // 如果是 / 则可能是注释.
-          Object comment = value();
-          System.out.println(comment);
+          value();
           break;
           // } .
         case 125:
@@ -142,7 +176,7 @@ public class JsonReaderV2 extends AbstractJsonParser {
           // 返回当前对象.
           return obj;
         default:
-          error(line, position + 1, index, sequence);
+          error(line, position + 1);
           break;
       }
     }
@@ -218,7 +252,7 @@ public class JsonReaderV2 extends AbstractJsonParser {
         return sequence.substring(start, index - 1);
       }
     }
-    error(line, position + 1, index, sequence);
+    error(line, position + 1);
     throw new RuntimeException("");
   }
 
@@ -252,7 +286,7 @@ public class JsonReaderV2 extends AbstractJsonParser {
     final int n = sequence.charAt(index);
     // : .
     if (58 != n) {
-      error(line, position + 1, index, sequence);
+      error(line, position + 1);
     }
     index++;
   }
@@ -341,21 +375,21 @@ public class JsonReaderV2 extends AbstractJsonParser {
   }
 
   // 打印错误.
-  private void error(int row, int begin, int index, String string) {
-    StringBuilder sb = new StringBuilder();
+  private void error(int row, int begin) {
+    StringBuilder sb = new StringBuilder(128);
     sb.append("Parse error at row: ").append(row).append(", column: ").append(index - begin + 1);
     sb.append("\r\n");
     int n = begin;
-    while (n < string.length()) {
-      char c = string.charAt(n);
+    while (n < sequence.length()) {
+      char c = sequence.charAt(n);
       if (10 != c) {
-        sb.append(string.charAt(n++));
+        sb.append(sequence.charAt(n++));
       } else {
         break;
       }
     }
     sb.append("\r\n");
-    sb.append("-".repeat(Math.max(0, (index - begin))));
+    sb.append("-".repeat(Math.max(0, index - begin)));
     sb.append("^");
     throw new RuntimeException("\r\n" + sb);
   }

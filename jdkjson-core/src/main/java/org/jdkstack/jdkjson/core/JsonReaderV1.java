@@ -11,14 +11,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JsonReaderV1 extends AbstractJsonParser {
   // 对象
   private static Map<String, Object> object(String sequence, AtomicInteger i) {
+    i.getAndIncrement();
     int length = sequence.length();
     Map<String, Object> obj = new HashMap<>();
     int state = 0;
-    // 对象必须是{开头.
-    final int h = sequence.charAt(i.get());
-    assert h == '{';
-    i.getAndIncrement();
-    while (i.get() < length) {
+    boolean flag = true;
+    while (i.get() < length && flag) {
       skipWhiteSpace(sequence, i);
       final int c = sequence.charAt(i.get());
       switch (c) {
@@ -39,23 +37,25 @@ public class JsonReaderV1 extends AbstractJsonParser {
           break;
         case '}':
           i.getAndIncrement();
-          return obj;
+          // return obj;
+          // 结束循环.
+          flag = false;
+          break;
         default:
+          break;
       }
     }
-    return null;
+    return obj;
   }
 
   // 数组.
   private static List<Object> array(String sequence, AtomicInteger i) {
+    i.getAndIncrement();
     int length = sequence.length();
     List<Object> arr = new ArrayList<>();
     int state = 0;
-    // 数组必须是[开头.
-    final int h = sequence.charAt(i.get());
-    assert h == '[';
-    i.getAndIncrement();
-    while (i.get() < length) {
+    boolean flag = true;
+    while (i.get() < length && flag) {
       skipWhiteSpace(sequence, i);
       final int c = sequence.charAt(i.get());
       switch (c) {
@@ -65,7 +65,9 @@ public class JsonReaderV1 extends AbstractJsonParser {
           break;
         case ']':
           i.getAndIncrement();
-          return arr;
+          flag = false;
+          // return arr;
+          break;
         default:
           state = 1;
           Object value = value(sequence, i);
@@ -73,17 +75,16 @@ public class JsonReaderV1 extends AbstractJsonParser {
           break;
       }
     }
-
-    return null;
+    return arr;
   }
 
   // 字符串.
   private static String string(String sequence, AtomicInteger i) {
-    int length = sequence.length();
     // 字符串需要移动一位,从"下一位开始算起.
     i.incrementAndGet();
     // 记录"后的字符开始位置.
     int start = i.get();
+    int length = sequence.length();
     while (i.get() < length) {
       final int c = sequence.charAt(i.get());
       i.incrementAndGet();
@@ -130,6 +131,44 @@ public class JsonReaderV1 extends AbstractJsonParser {
     i.getAndIncrement();
   }
 
+  // 反序列化json->map.
+  public static Object deserializeLru(String sequence) {
+    AtomicInteger i = new AtomicInteger(0);
+    Object obj = LRUV1.get(sequence);
+    if (obj != null) {
+      return obj;
+    } else {
+      Object value = value(sequence, i);
+      LRUV1.put(sequence, value);
+      return value;
+    }
+  }
+
+  // 反序列化json->list.
+  public static Object deserialize2ListLru(String sequence) {
+    AtomicInteger i = new AtomicInteger(0);
+    Object obj = LRUV1.get(sequence);
+    if (obj != null) {
+      return obj;
+    } else {
+      Object value = array(sequence, i);
+      LRUV1.put(sequence, value);
+      return value;
+    }
+  }
+
+  // 反序列化json->map.
+  public static Object deserialize2MapLru(String sequence) {
+    AtomicInteger i = new AtomicInteger(0);
+    Object obj = LRUV1.get(sequence);
+    if (obj != null) {
+      return obj;
+    } else {
+      Object value = object(sequence, i);
+      LRUV1.put(sequence, value);
+      return value;
+    }
+  }
   // 反序列化json->map.
   public static Object deserialize(String sequence) {
     AtomicInteger i = new AtomicInteger(0);
