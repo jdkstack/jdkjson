@@ -15,7 +15,7 @@ import org.jdkstack.jdkjson.core.cache.LruV1;
  *
  * @author admin
  */
-public class JsonReaderV2 extends AbstractJsonReader {
+public class JsonReaderV2 extends AbstractJsonReaderV2 {
   /** LRU缓存类. */
   protected static final LruV1<String, Object> LRUV1 = new LruV1<>(100);
   /** 换行的第一个字符的位置,默认值0. */

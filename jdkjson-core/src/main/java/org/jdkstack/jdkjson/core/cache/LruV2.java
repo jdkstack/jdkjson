@@ -1,9 +1,8 @@
-package org.jdkstack.jdkjson.examples;
+package org.jdkstack.jdkjson.core.cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-import org.jdkstack.jdkjson.core.cache.Constants;
 
 /**
  * LinkedHashMap实现Lru算法(线程安全).

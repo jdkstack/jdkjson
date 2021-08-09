@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractJsonReader implements JsonReader {
+public abstract class AbstractJsonReaderV2 implements JsonReader {
   /** 待处理的json字符串. */
   protected final String sequence;
   /** 待处理的json字符串长度. */
@@ -12,7 +12,7 @@ public abstract class AbstractJsonReader implements JsonReader {
   /** 正在处理的字符的位置,默认值0. */
   protected int index;
 
-  protected AbstractJsonReader(final String sequenceParam) {
+  protected AbstractJsonReaderV2(final String sequenceParam) {
     // json字符串序列.
     this.sequence = sequenceParam;
     // 字符串总长度,循环到-1.
