@@ -1,5 +1,10 @@
 package org.jdkstack.jdkjson.jmh;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.JsonWriterV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
@@ -22,12 +27,6 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 /**
  * How run this?
  *
@@ -41,6 +40,29 @@ import java.util.concurrent.TimeUnit;
 public class JsonSerializeBenchmark {
   private final Map<String, Object> map = new HashMap<>();
   private final List<Object> list = new ArrayList<>();
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @param args args.
+   * @author admin
+   */
+  public static void main(final String... args) {
+    final Options opt =
+        new OptionsBuilder()
+            .include(JsonSerializeBenchmark.class.getSimpleName())
+            .threads(10)
+            .forks(1)
+            .build();
+    try {
+      new Runner(opt).run();
+    } catch (final RunnerException e) {
+      // Conversion into unchecked exception is also allowed.
+      throw new RuntimeException("", e);
+    }
+  }
 
   /**
    * This is a method description.
@@ -73,29 +95,6 @@ public class JsonSerializeBenchmark {
   @TearDown(Level.Trial)
   public void down() {
     //
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @param args args.
-   * @author admin
-   */
-  public static void main(final String... args) {
-    final Options opt =
-        new OptionsBuilder()
-            .include(JsonSerializeBenchmark.class.getSimpleName())
-            .threads(10)
-            .forks(1)
-            .build();
-    try {
-      new Runner(opt).run();
-    } catch (final RunnerException e) {
-      // Conversion into unchecked exception is also allowed.
-      throw new RuntimeException("", e);
-    }
   }
 
   /**

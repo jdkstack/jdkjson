@@ -1,13 +1,11 @@
 package org.jdkstack.jdkjson.examples;
 
-import org.jdkstack.jdkjson.core.JsonReaderV1;
-import org.jdkstack.jdkjson.core.JsonReaderV2;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
+import org.jdkstack.jdkjson.core.JsonReaderV2;
 
 public class Examples {
 
@@ -46,12 +44,12 @@ public class Examples {
               + new Random().nextInt(80)
               + ",\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"friends\":[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}],\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"邵同学\"}";
       JsonReaderV2 jsonParserV2 = new JsonReaderV2(map);
-       jsonParserV2.deserializeLru();
+      jsonParserV2.deserializeLru();
 
-     // JsonReaderV1.deserializeLru(map);
+      // JsonReaderV1.deserializeLru(map);
     }
 
-/*    for (int i = 0; i < 2000000; i++) {
+    /*    for (int i = 0; i < 2000000; i++) {
       String list =
               "[{\"age\":"
                       + new Random().nextInt(100)

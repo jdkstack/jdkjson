@@ -1,7 +1,5 @@
 package org.jdkstack.jdkjson.core;
 
-import org.jdkstack.jdkjson.core.cache.LruV1;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -9,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jdkstack.jdkjson.core.cache.LruV1;
 
 /**
  * Json反序列化第1版.
@@ -20,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author admin
  */
 public final class JsonReaderV1 {
-
+  /** LRU缓存类. */
   private static final LruV1<String, Object> LRUV1 = new LruV1<>(100);
 
   private JsonReaderV1() {

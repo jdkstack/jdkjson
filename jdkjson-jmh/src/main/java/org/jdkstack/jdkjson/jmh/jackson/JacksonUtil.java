@@ -3,16 +3,15 @@ package org.jdkstack.jdkjson.jmh.jackson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import java.io.IOException;
 
 public class JacksonUtil {
 
+  private static ObjectMapper mapper = new ObjectMapper();
+
   private JacksonUtil() {
     //
   }
-
-  private static ObjectMapper mapper = new ObjectMapper();
 
   public static String bean2Json(Object obj) {
     try {

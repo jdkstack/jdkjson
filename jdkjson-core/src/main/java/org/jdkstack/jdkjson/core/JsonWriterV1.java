@@ -5,11 +5,6 @@ import java.util.Map;
 
 public class JsonWriterV1 {
 
-  // 序列化map|list->json.
-  public String serialize() {
-    return null;
-  }
-
   // 序列化map->json.
   public static String map2serialize(Map<String, Object> map) {
     StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
@@ -61,5 +56,10 @@ public class JsonWriterV1 {
     }
     buf.append(']');
     return buf.toString();
+  }
+
+  // 序列化map|list->json.
+  public String serialize() {
+    return null;
   }
 }

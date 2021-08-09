@@ -1,5 +1,5 @@
 package org.jdkstack.jdkjson.core;
 
-public class JsonPathV1 {
-  //
+public interface JsonReader {
+
 }

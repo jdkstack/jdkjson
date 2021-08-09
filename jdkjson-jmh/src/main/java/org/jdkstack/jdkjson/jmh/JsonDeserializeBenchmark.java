@@ -1,5 +1,8 @@
 package org.jdkstack.jdkjson.jmh;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.JsonReaderV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
@@ -23,10 +26,6 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 /**
  * How run this?
  *
@@ -39,9 +38,32 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 5, time = 1)
 public class JsonDeserializeBenchmark {
   private final String list =
-          "[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}]";
+      "[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}]";
   private final String map =
-          "{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"friends\":[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}],\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"邵同学\"}";
+      "{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"friends\":[{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"小明\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"Tony\"},{\"age\":24,\"clothes\":{\"coat\":\"Nike\",\"trousers\":\"adidas\",\"shoes\":\"安踏\"},\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"陈小二\"}],\"fullName\":{},\"hobbies\":[\"篮球\",\"游泳\",\"coding\"],\"name\":\"邵同学\"}";
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @param args args.
+   * @author admin
+   */
+  public static void main(final String... args) {
+    final Options opt =
+        new OptionsBuilder()
+            .include(JsonDeserializeBenchmark.class.getSimpleName())
+            .threads(10)
+            .forks(1)
+            .build();
+    try {
+      new Runner(opt).run();
+    } catch (final RunnerException e) {
+      // Conversion into unchecked exception is also allowed.
+      throw new RuntimeException("", e);
+    }
+  }
 
   /**
    * This is a method description.
@@ -65,29 +87,6 @@ public class JsonDeserializeBenchmark {
   @TearDown(Level.Trial)
   public void down() {
     //
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @param args args.
-   * @author admin
-   */
-  public static void main(final String... args) {
-    final Options opt =
-        new OptionsBuilder()
-            .include(JsonDeserializeBenchmark.class.getSimpleName())
-            .threads(10)
-            .forks(1)
-            .build();
-    try {
-      new Runner(opt).run();
-    } catch (final RunnerException e) {
-      // Conversion into unchecked exception is also allowed.
-      throw new RuntimeException("", e);
-    }
   }
 
   /**
