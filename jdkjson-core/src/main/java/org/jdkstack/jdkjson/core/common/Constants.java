@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.common;
 
 /**
  * This is a class description.

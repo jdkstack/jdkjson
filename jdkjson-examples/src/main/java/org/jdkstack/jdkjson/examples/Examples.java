@@ -5,8 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
-import org.jdkstack.jdkjson.core.JsonReaderV1;
-import org.jdkstack.jdkjson.core.JsonReaderV2;
+import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
 
 public class Examples {
 

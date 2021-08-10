@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.common;
 
 /**
  * 128个ASCII码完整列表.

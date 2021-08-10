@@ -1,6 +1,7 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.writer.version1;
 
 import java.util.Map;
+import org.jdkstack.jdkjson.core.common.Ascii;
 
 /**
  * .
@@ -11,7 +12,15 @@ import java.util.Map;
  */
 public class JsonWriterV1 {
 
-  // 序列化map->json.
+  /**
+   * 序列化.
+   *
+   * <p>map.
+   *
+   * @param map map.
+   * @return String String.
+   * @author admin
+   */
   public static String map2serialize(Map<String, Object> map) {
     StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
     buf.append('{');
@@ -42,7 +51,15 @@ public class JsonWriterV1 {
     return buf.toString();
   }
 
-  // 序列化list->json.
+  /**
+   * 序列化.
+   *
+   * <p>list.
+   *
+   * @param list list 对象.
+   * @return String String.
+   * @author admin
+   */
   public static String list2serialize(final Iterable<Object> list) {
     StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
     buf.append('[');
@@ -63,7 +80,14 @@ public class JsonWriterV1 {
     return buf.toString();
   }
 
-  // 序列化map|list->json.
+  /**
+   * 序列化.
+   *
+   * <p>list|map对象.
+   *
+   * @return String String.
+   * @author admin
+   */
   public String serialize() {
     return null;
   }

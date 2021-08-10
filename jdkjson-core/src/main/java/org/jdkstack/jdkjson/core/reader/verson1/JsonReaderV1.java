@@ -1,10 +1,11 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.reader.verson1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jdkstack.jdkjson.core.common.Ascii;
 import org.jdkstack.jdkjson.core.cache.LruV1;
 
 /**

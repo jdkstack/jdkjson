@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.jdkstack.jdkjson.core.JsonWriterV1;
+import org.jdkstack.jdkjson.core.writer.version1.JsonWriterV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;

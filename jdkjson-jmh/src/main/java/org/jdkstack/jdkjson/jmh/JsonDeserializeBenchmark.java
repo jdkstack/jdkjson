@@ -3,7 +3,7 @@ package org.jdkstack.jdkjson.jmh;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.jdkstack.jdkjson.core.JsonReaderV1;
+import org.jdkstack.jdkjson.core.reader.verson1.JsonReaderV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;

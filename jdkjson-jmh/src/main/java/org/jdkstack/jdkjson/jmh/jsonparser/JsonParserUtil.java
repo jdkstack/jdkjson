@@ -1,6 +1,6 @@
 package org.jdkstack.jdkjson.jmh.jsonparser;
 
-import org.jdkstack.jdkjson.core.JsonReaderV2;
+import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
 
 public class JsonParserUtil {
 

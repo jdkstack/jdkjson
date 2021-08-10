@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.reader.verson2;
 
 /**
  * .
