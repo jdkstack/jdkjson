@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.jdkstack.jdkjson.core.common.Ascii;
 import org.jdkstack.jdkjson.core.cache.LruV1;
+import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
  * Json反序列化第1版.
@@ -19,7 +20,7 @@ import org.jdkstack.jdkjson.core.cache.LruV1;
  */
 public final class JsonReaderV1 {
   /** LRU缓存类. */
-  private static final LruV1<String, Object> LRUV1 = new LruV1<>(100);
+  private static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
 
   private JsonReaderV1() {
     //

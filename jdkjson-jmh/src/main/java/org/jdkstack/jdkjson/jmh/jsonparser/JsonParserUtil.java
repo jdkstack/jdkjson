@@ -2,7 +2,14 @@ package org.jdkstack.jdkjson.jmh.jsonparser;
 
 import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
 
-public class JsonParserUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class JsonParserUtil {
 
   private JsonParserUtil() {
     //

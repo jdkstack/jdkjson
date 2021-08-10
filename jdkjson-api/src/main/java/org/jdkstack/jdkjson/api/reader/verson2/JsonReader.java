@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.reader.verson2;
+package org.jdkstack.jdkjson.api.reader.verson2;
 
 /**
  * .
@@ -10,7 +10,7 @@ package org.jdkstack.jdkjson.core.reader.verson2;
 public interface JsonReader {
 
   /**
-   * .
+   * 处理冒号.
    *
    * @author admin
    */

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.writer.version1.JsonWriterV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
@@ -60,7 +61,7 @@ public class JsonSerializeBenchmark {
       new Runner(opt).run();
     } catch (final RunnerException e) {
       // Conversion into unchecked exception is also allowed.
-      throw new RuntimeException("", e);
+      throw new JsonRuntimeException("", e);
     }
   }
 
@@ -74,12 +75,12 @@ public class JsonSerializeBenchmark {
   @Setup(Level.Trial)
   public void setup() {
     //
-    map.put("age", 24);
+    map.put("age", Constants.AGE);
     map.put("coat", "Nike");
     map.put("true", true);
     map.put("null1", null);
 
-    list.add(123);
+    list.add(Constants.AGE);
     list.add("123123");
     list.add(true);
     list.add(null);

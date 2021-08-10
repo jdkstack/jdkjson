@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import org.jdkstack.jdkjson.core.common.Ascii;
-import org.jdkstack.jdkjson.core.common.Constants;
-import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.cache.LruV1;
+import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
+import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
  * Json反序列化第2版.
@@ -20,7 +20,7 @@ import org.jdkstack.jdkjson.core.cache.LruV1;
  */
 public class JsonReaderV2 extends AbstractJsonReaderV2 {
   /** LRU缓存类. */
-  protected static final LruV1<String, Object> LRUV1 = new LruV1<>(100);
+  protected static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
   /** 换行的第一个字符的位置,默认值0. */
   private int position;
   /** 当前行号,当前处理第几行,默认值第一行. */
@@ -262,6 +262,7 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
    */
   @Override
   public Number number() {
+    skip();
     final int start = index;
     while (index < length) {
       final char c = sequence.charAt(index);

@@ -3,7 +3,14 @@ package org.jdkstack.jdkjson.jmh.jsonlib;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-public class JsonLibUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class JsonLibUtil {
 
   private JsonLibUtil() {
     //

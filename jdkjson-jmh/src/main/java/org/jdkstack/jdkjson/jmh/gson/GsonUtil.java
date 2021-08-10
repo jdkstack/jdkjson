@@ -5,20 +5,27 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class GsonUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class GsonUtil {
 
-  private static Gson gson = new GsonBuilder().create();
+  private static final Gson GSON = new GsonBuilder().create();
 
   private GsonUtil() {
     //
   }
 
   public static String bean2Json(Object obj) {
-    return gson.toJson(obj);
+    return GSON.toJson(obj);
   }
 
   public static <T> T json2Bean(String jsonStr, Class<T> objClass) {
-    return gson.fromJson(jsonStr, objClass);
+    return GSON.fromJson(jsonStr, objClass);
   }
 
   public static String jsonFormatter(String uglyJsonStr) {

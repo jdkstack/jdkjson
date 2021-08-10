@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.cache;
+package org.jdkstack.jdkjson.api.cache;
 
 /**
  * 缓存接口.

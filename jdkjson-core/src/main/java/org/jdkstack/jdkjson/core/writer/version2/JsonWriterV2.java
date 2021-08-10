@@ -9,17 +9,38 @@ package org.jdkstack.jdkjson.core.writer.version2;
  */
 public class JsonWriterV2 {
 
-  // 序列化map|list->json.
+  /**
+   * 序列化.
+   *
+   * <p>map.
+   *
+   * @return String String.
+   * @author admin
+   */
   public String serialize() {
     return null;
   }
 
-  // 序列化map->json.
+  /**
+   * 序列化.
+   *
+   * <p>map.
+   *
+   * @return String String.
+   * @author admin
+   */
   public String map2serialize() {
     return null;
   }
 
-  // 序列化list->json.
+  /**
+   * 序列化.
+   *
+   * <p>map.
+   *
+   * @return String String.
+   * @author admin
+   */
   public String list2serialize() {
     return null;
   }

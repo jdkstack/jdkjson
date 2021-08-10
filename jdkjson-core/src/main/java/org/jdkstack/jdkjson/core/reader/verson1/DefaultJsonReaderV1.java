@@ -66,6 +66,7 @@ public final class DefaultJsonReaderV1 {
    * @author admin
    */
   public static Number number(final String sequence, final AtomicInteger ai) {
+    skip(sequence, ai);
     // json 字符串的长度.
     int length = sequence.length();
     // 数字是不是小数.

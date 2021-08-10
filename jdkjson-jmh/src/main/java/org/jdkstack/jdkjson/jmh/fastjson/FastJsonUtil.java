@@ -2,7 +2,14 @@ package org.jdkstack.jdkjson.jmh.fastjson;
 
 import com.alibaba.fastjson.JSON;
 
-public class FastJsonUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class FastJsonUtil {
 
   private FastJsonUtil() {
     //

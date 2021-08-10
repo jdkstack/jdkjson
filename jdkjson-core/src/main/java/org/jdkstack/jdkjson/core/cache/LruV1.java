@@ -5,6 +5,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
+import org.jdkstack.jdkjson.api.cache.Cache;
 
 /**
  * 自定义实现Lru算法(线程安全).

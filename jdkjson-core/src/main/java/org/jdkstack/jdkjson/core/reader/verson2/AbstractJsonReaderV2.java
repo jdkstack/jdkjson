@@ -3,6 +3,7 @@ package org.jdkstack.jdkjson.core.reader.verson2;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.jdkstack.jdkjson.api.reader.verson2.JsonReader;
 import org.jdkstack.jdkjson.core.common.Ascii;
 
 /**
