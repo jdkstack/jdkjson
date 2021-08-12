@@ -13,6 +13,11 @@ public final class Constants {
   /** 逗号 . */
   public static final String COMMA = ",";
 
+  /** . */
+  public static final int HASH_MAP = 16;
+  /** . */
+  public static final int LIST = 10;
+
   private Constants() {
     //
   }

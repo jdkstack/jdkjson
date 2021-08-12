@@ -98,12 +98,12 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
    *
    * <p>json对象.
    *
-   * @return Map Map.
+   * @return Map Map. Guava : (int) ((float) expectedSize / 0.75F + 1.0F);
    * @author admin
    */
   public Map<String, Object> object() {
     //  创建一个map代表对象.
-    Map<String, Object> obj = new HashMap<>(Ascii.ASCII_64);
+    Map<String, Object> obj = new HashMap<>();
     // 循环退出的标识.
     boolean flag = true;
     // 如果小于json字符串的最大长度.
@@ -158,7 +158,8 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
     colon();
     // 对象中的value,可能是7种类型的某一种,此处是递归方式解析.
     // 将key和value添加到对象中.
-    obj.put(key, value());
+    Object value = value();
+    obj.put(key, value);
     // 状态由0->1,表示这个key:value对解析完毕.
   }
 

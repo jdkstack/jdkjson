@@ -14,13 +14,15 @@ import org.jdkstack.jdkjson.core.reader.Constants;
  *
  * <p>采用静态方法方式解析(需要json校验处理).
  *
- * <p>json5: https://spec.json5.org/.
+ * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/.
+ *
+ * <p>RFC json: https://datatracker.ietf.org/doc/rfc8259/.
  *
  * @author admin
  */
 public class JsonReaderV2 extends AbstractJsonReaderV2 {
   /** LRU缓存类. */
-  protected static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
+  private static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
   /** 换行的第一个字符的位置,默认值0. */
   private int position;
   /** 当前行号,当前处理第几行,默认值第一行. */

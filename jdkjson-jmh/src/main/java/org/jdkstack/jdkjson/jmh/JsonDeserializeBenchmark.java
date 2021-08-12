@@ -10,7 +10,6 @@ import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
 import org.jdkstack.jdkjson.jmh.jsonlib.JsonLibUtil;
 import org.jdkstack.jdkjson.jmh.jsonparser.JsonParserUtil;
-import org.jdkstack.jdkjson.jmh.jsonsmart.JsonSmartUtil;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Level;
@@ -44,6 +43,30 @@ public class JsonDeserializeBenchmark {
    *
    * <p>Another description after blank line.
    *
+   * @author admin
+   */
+  @Setup(Level.Trial)
+  public void setup() {
+    //
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @TearDown(Level.Trial)
+  public void down() {
+    //
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
    * @param args args.
    * @author admin
    */
@@ -69,35 +92,11 @@ public class JsonDeserializeBenchmark {
    *
    * @author admin
    */
-  @Setup(Level.Trial)
-  public void setup() {
-    //
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @TearDown(Level.Trial)
-  public void down() {
-    //
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV2() {
-    JsonParserUtil.json2Bean(Constants.LIST);
+  public void jsonParserV1Map() {
+    JsonReaderV1.deserialize2Map(Constants.MAP);
   }
 
   /**
@@ -111,7 +110,77 @@ public class JsonDeserializeBenchmark {
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonWriterV2Map() {
-    JsonParserUtil.json2BeanMap(Constants.MAP);
+    JsonParserUtil.json2Bean(Constants.MAP);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsoniterMap() {
+    JsoniterUtil.json2Bean(Constants.MAP, Map.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void fastJsonMap() {
+    FastJsonUtil.json2Bean(Constants.MAP, Map.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jacksonMap() {
+    JacksonUtil.json2Bean(Constants.MAP, Map.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonLibMap() {
+    JsonLibUtil.bean2JsonMap(Constants.MAP);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonParserV1List() {
+    JsonReaderV1.deserialize2List(Constants.LIST);
   }
 
   /**
@@ -125,7 +194,62 @@ public class JsonDeserializeBenchmark {
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonWriterV2List() {
-    JsonParserUtil.json2BeanList(Constants.LIST);
+    JsonParserUtil.json2Bean(Constants.LIST);
   }
 
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsoniterList() {
+    JsoniterUtil.json2Bean(Constants.LIST, List.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void fastJsonList() {
+    FastJsonUtil.json2Bean(Constants.LIST, List.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jacksonList() {
+    JacksonUtil.json2Bean(Constants.LIST, List.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonLibList() {
+    JsonLibUtil.bean2JsonList(Constants.LIST);
+  }
 }

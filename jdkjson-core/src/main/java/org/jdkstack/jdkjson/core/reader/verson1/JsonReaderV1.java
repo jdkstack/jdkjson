@@ -36,12 +36,12 @@ public final class JsonReaderV1 {
    * @author admin
    */
   public static Object deserializeLru(final String sequence) {
-    // 创建一个公用的位置对象.
-    AtomicInteger ai = new AtomicInteger(0);
     // 查询LRU缓存是否存在.
     Object obj = LRUV1.get(sequence);
     // 不存在.
     if (obj == null) {
+      // 创建一个公用的位置对象.
+      AtomicInteger ai = new AtomicInteger(0);
       // 解析json字符串,返回对象object.
       Object value = value(sequence, ai);
       // 放入LRU缓存中.
@@ -177,7 +177,7 @@ public final class JsonReaderV1 {
     // json字符串序列的长度.
     int length = sequence.length();
     // 创建一个json对象的表示.
-    Map<String, Object> obj = new HashMap<>(Ascii.ASCII_64);
+    Map<String, Object> obj = new HashMap<>();
     // 循环退出的标识.
     boolean flag = true;
     // 循环处理字符串序列的每一个字符.
