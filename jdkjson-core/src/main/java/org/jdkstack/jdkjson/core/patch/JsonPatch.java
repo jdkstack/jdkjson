@@ -18,7 +18,7 @@ public class JsonPatch implements Patch {
 
   @Override
   public void add() {
-    JsonPointerV1 jsonPointerV1 = new JsonPointerV1();
+
   }
 
   @Override

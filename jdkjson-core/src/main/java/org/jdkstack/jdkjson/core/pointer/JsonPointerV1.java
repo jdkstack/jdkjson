@@ -1,7 +1,6 @@
 package org.jdkstack.jdkjson.core.pointer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.core.common.Ascii;
@@ -36,233 +35,18 @@ import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
  *
  * @author admin
  */
-public class JsonPointerV1 implements Pointer {
+public class JsonPointerV1 extends AbstractJsonPointerV1 {
+  /** json pointer的path分解成token. */
+  private final List<String> tokens = new ArrayList<>();
 
-  private static final List<String> tokens = new ArrayList<>();
+  private final String path;
+  private final int length;
+  private int size;
 
-  /*
-    private final RefToken[] tokens;
-
-    public static final JsonPointerV1 ROOT = new JsonPointerV1(new RefToken[] {});
-
-    public JsonPointerV1(RefToken[] tokens) {
-      this.tokens = tokens;
-    }
-
-    public JsonPointerV1(List<RefToken> tokens) {
-      this.tokens = tokens.toArray(new RefToken[0]);
-    }
-
-    public static JsonPointerV1 parse(String path) throws IllegalArgumentException {
-      StringBuilder reftoken = null;
-      List<RefToken> result = new ArrayList<RefToken>();
-
-      for (int i = 0; i < path.length(); ++i) {
-        char c = path.charAt(i);
-
-        // Require leading slash
-        if (i == 0) {
-          if (c != '/') throw new IllegalArgumentException("Missing leading slash");
-          reftoken = new StringBuilder();
-          continue;
-        }
-
-        switch (c) {
-            // Escape sequences
-          case '~':
-            switch (path.charAt(++i)) {
-              case '0':
-                reftoken.append('~');
-                break;
-              case '1':
-                reftoken.append('/');
-                break;
-              default:
-                throw new IllegalArgumentException(
-                    "Invalid escape sequence ~" + path.charAt(i) + " at index " + i);
-            }
-            break;
-
-            // New reftoken
-          case '/':
-            result.add(new RefToken(reftoken.toString()));
-            reftoken.setLength(0);
-            break;
-
-          default:
-            reftoken.append(c);
-            break;
-        }
-      }
-
-      if (reftoken == null) return ROOT;
-
-      result.add(RefToken.parse(reftoken.toString()));
-      return new JsonPointerV1(result);
-    }
-
-    public boolean isRoot() {
-      return tokens.length == 0;
-    }
-
-    JsonPointerV1 append(String field) {
-      RefToken[] newTokens = Arrays.copyOf(tokens, tokens.length + 1);
-      newTokens[tokens.length] = new RefToken(field);
-      return new JsonPointerV1(newTokens);
-    }
-
-    JsonPointerV1 append(int index) {
-      return append(Integer.toString(index));
-    }
-
-    int size() {
-      return tokens.length;
-    }
-
-    public String toString() {
-      StringBuilder sb = new StringBuilder();
-      for (RefToken token : tokens) {
-        sb.append('/');
-        sb.append(token);
-      }
-      return sb.toString();
-    }
-
-    public List<RefToken> decompose() {
-      return Arrays.asList(tokens.clone());
-    }
-
-    public RefToken get(int index) throws IndexOutOfBoundsException {
-      if (index < 0 || index >= tokens.length)
-        throw new IndexOutOfBoundsException("Illegal index: " + index);
-      return tokens[index];
-    }
-
-    public RefToken last() {
-      if (isRoot()) throw new IllegalStateException("Root pointers contain no reference tokens");
-      return tokens[tokens.length - 1];
-    }
-
-    public JsonPointerV1 getParent() {
-      return isRoot() ? this : new JsonPointerV1(Arrays.copyOf(tokens, tokens.length - 1));
-    }
-
-    private void error(int atToken, String message) {
-      //
-    }
-
-    public Object evaluate(final Object document) {
-      Object current = document;
-      for (int idx = 0; idx < tokens.length; ++idx) {
-        final RefToken token = tokens[idx];
-        if (current instanceof List) {
-          List map = (List) current;
-          current = map.get(token.getIndex());
-        } else if (current instanceof Map) {
-          Map map = (Map) current;
-          current = map.get(token.getField());
-        } else {
-          throw new JsonRuntimeException("");
-        }
-        if (current == null) {
-          error(idx, "Missing field \"" + token.getField() + "\"");
-        }
-      }
-      return current;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-
-      JsonPointerV1 that = (JsonPointerV1) o;
-
-      // Probably incorrect - comparing Object[] arrays with Arrays.equals
-      return Arrays.equals(tokens, that.tokens);
-    }
-
-    @Override
-    public int hashCode() {
-      return Arrays.hashCode(tokens);
-    }
-
-    static class RefToken {
-      private String decodedToken;
-      private transient Integer index = null;
-
-      public RefToken(String decodedToken) {
-        if (decodedToken == null) throw new IllegalArgumentException("Token can't be null");
-        this.decodedToken = decodedToken;
-      }
-
-      private static final Pattern DECODED_TILDA_PATTERN = Pattern.compile("~0");
-      private static final Pattern DECODED_SLASH_PATTERN = Pattern.compile("~1");
-
-      private static String decodePath(Object object) {
-        String path = object.toString(); // see http://tools.ietf.org/html/rfc6901#section-4
-        path = DECODED_SLASH_PATTERN.matcher(path).replaceAll("/");
-        return DECODED_TILDA_PATTERN.matcher(path).replaceAll("~");
-      }
-
-      private static final Pattern ENCODED_TILDA_PATTERN = Pattern.compile("~");
-      private static final Pattern ENCODED_SLASH_PATTERN = Pattern.compile("/");
-
-      private static String encodePath(Object object) {
-        String path = object.toString(); // see http://tools.ietf.org/html/rfc6901#section-4
-        path = ENCODED_TILDA_PATTERN.matcher(path).replaceAll("~0");
-        return ENCODED_SLASH_PATTERN.matcher(path).replaceAll("~1");
-      }
-
-      private static final Pattern VALID_ARRAY_IND = Pattern.compile("-|0|(?:[1-9][0-9]*)");
-
-      public static RefToken parse(String rawToken) {
-        if (rawToken == null) throw new IllegalArgumentException("Token can't be null");
-        return new RefToken(decodePath(rawToken));
-      }
-
-      public boolean isArrayIndex() {
-        if (index != null) return true;
-        Matcher matcher = VALID_ARRAY_IND.matcher(decodedToken);
-        if (matcher.matches()) {
-          index = matcher.group().equals("-") ? LAST_INDEX : Integer.parseInt(matcher.group());
-          return true;
-        }
-        return false;
-      }
-
-      public int getIndex() {
-        if (!isArrayIndex()) throw new IllegalStateException("Object operation on array target");
-        return index;
-      }
-
-      public String getField() {
-        return decodedToken;
-      }
-
-      @Override
-      public String toString() {
-        return encodePath(decodedToken);
-      }
-
-      @Override
-      public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RefToken refToken = (RefToken) o;
-
-        return decodedToken.equals(refToken.decodedToken);
-      }
-
-      @Override
-      public int hashCode() {
-        return decodedToken.hashCode();
-      }
-    }
-
-  */
-  // static final int LAST_INDEX = Integer.MIN_VALUE;
+  public JsonPointerV1(final String path) {
+    this.path = path;
+    this.length = path.length();
+  }
 
   /**
    * 对json pointer中的token进行解码(不包括前缀/).
@@ -273,7 +57,7 @@ public class JsonPointerV1 implements Pointer {
    * @return String String.
    * @author admin
    */
-  public static String decode(String token) {
+  public String decode(String token) {
     // 初始化容量需要再次测试(是否应该分配对象?).
     final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
@@ -323,7 +107,7 @@ public class JsonPointerV1 implements Pointer {
    * @return String String.
    * @author admin
    */
-  private static String encode(String token) {
+  private String encode(String token) {
     //    // 初始化容量需要再次测试.
     final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
@@ -361,7 +145,7 @@ public class JsonPointerV1 implements Pointer {
    * @return String String.
    * @author admin
    */
-  public static int arrayIndex(String token) {
+  public int arrayIndex(String token) {
     int length = token.length();
     // 当前被处理的json pointer字符位置.
     int index = 0;
@@ -379,24 +163,15 @@ public class JsonPointerV1 implements Pointer {
       switch (c) {
           // - .
         case Ascii.ASCII_45:
-          switch (state) {
-              // 第一个字符是-,那么后面不能出现任何字符,流程结束.
-            case 0:
-              // 状态设置成非法.
-              state = -1;
-              // 数组索引设置成-1.
-              arrayIndex = -1;
-              break;
-              // 其他状态都是非法的. 包括正常状态1,因为-不允许出现在(1-9)后面.
-            default:
-              // 非法.
-              flag = false;
-              // 状态非法.
-              state = -1;
-              // 一旦非法,数组索引重置-1.
-              arrayIndex = -1;
-              break;
+          // 第一个字符是-,那么后面不能出现任何字符,流程结束.
+          // 状态设置成非法.
+          if (state != 0) {
+            flag = false;
+            // 状态非法.
+            // 一旦非法,数组索引重置-1.
           }
+          state = -1;
+          arrayIndex = -1;
           break;
           // 0 .
         case Ascii.ASCII_48:
@@ -475,17 +250,15 @@ public class JsonPointerV1 implements Pointer {
    *
    * <p>json pointer
    *
-   * @param path json pointer path.
    * @author admin
    */
-  public static void path(String path) {
+  public void path() {
     int index = 0;
-    int length = path.length();
     int state = 0;
     StringBuilder sb = new StringBuilder(25);
     // 循环处理每一个字符.
     while (index < length) {
-      char c = path.charAt(index);
+      char c = this.path.charAt(index);
       // 处理每一个字符.
       switch (c) {
         case '~':
@@ -493,7 +266,7 @@ public class JsonPointerV1 implements Pointer {
           // 如果当前字符满足'~',并且不是最后一个字符.
           if (i < length) {
             // 获取下一个字符.
-            final char next = path.charAt(i);
+            final char next = this.path.charAt(i);
             // 如果是0.
             if (next == '0') {
               // 用~ 替换~0.
@@ -513,10 +286,10 @@ public class JsonPointerV1 implements Pointer {
           break;
         case '/':
           if (state == 0) {
-            tokens.add("");
+            this.tokens.add("");
             state = 1;
           } else if (state == 1) {
-            tokens.add(sb.toString());
+            this.tokens.add(sb.toString());
             sb.setLength(0);
           }
           break;
@@ -528,7 +301,8 @@ public class JsonPointerV1 implements Pointer {
       }
       index++;
     }
-    tokens.add(sb.toString());
+    this.tokens.add(sb.toString());
+    this.size = this.tokens.size();
   }
 
   /**
@@ -540,72 +314,29 @@ public class JsonPointerV1 implements Pointer {
    * @return Object json value.
    * @author admin
    */
-  public static Object value(final Object json) {
+  public Object value(final Object json) {
+    // 当前json完整对象,复制一份对象,以后操作都在这个current对象的基础上.
     Object current = json;
-    for (int idx = 0; idx < tokens.size(); ++idx) {
+    // 循环tokens,获取每一个token对象的json value.
+    for (int idx = 1; idx < size; idx++) {
+      // 从第一个token开始.
       final String token = tokens.get(idx);
-      if (tokens.size() == 1) {
-        return current;
-      }
-      if ("".equals(token)) {
-        continue;
-      }
+      // 处理json数组.
       if (current instanceof List) {
-        List map = (List) current;
-        current = map.get(Integer.parseInt(token));
-      } else if (current instanceof Map) {
-        Map map = (Map) current;
-        current = map.get(token);
-      } else {
-        throw new JsonRuntimeException("");
+        // 将json对象转换成list.
+        final List<Object> list = (List<Object>) current;
+        // 从数组中获取对应index的数据.
+        current = list.get(arrayIndex(token));
       }
+      // 处理json对象.
+      if (current instanceof Map) {
+        // 将json对象转换成map.
+        final Map<String, Object> map = (Map<String, Object>) current;
+        // 从对象中获取对应key的数据.
+        current = map.get(token);
+      }
+      // 其他类型的数据忽略,因此当前的token也忽略处理.
     }
     return current;
-  }
-
-  public static void main(String[] args) {
-    Map<String, Object> testData = new HashMap<>();
-    List<Object> foo = new ArrayList<>();
-    foo.add("bar");
-    foo.add("baz");
-    testData.put("foo", foo);
-    testData.put("", 0);
-    testData.put("a/b", 1);
-    testData.put("c%d", 2);
-    testData.put("e^f", 3);
-    testData.put("i\\j", 5);
-    testData.put("g|h", 4);
-    testData.put("k\"l", 6);
-    testData.put(" ", 7);
-    testData.put("m~n", 8);
-
-    path("/");
-    Object value = value(testData);
-    path("/foo/0");
-    path("/");
-    path("/a~1b");
-    path("/c%d");
-    path("/e^f");
-    path("/g|h");
-    path("/i\\j");
-    path("/k\"l");
-    path("/ ");
-    path("/m~0n");
-
-    path("/abc/dddd/a~1b/ad~0ddd");
-    String encode = encode("/~~~////~01~");
-
-    System.out.println(encode);
-
-    String decode = decode(encode);
-
-    System.out.println(decode);
-
-    long start = System.currentTimeMillis();
-    for (int i = 0; i < 200000000; i++) {
-      arrayIndex("21111111111111111133123123-12");
-    }
-    long end = System.currentTimeMillis();
-    throw new JsonRuntimeException(String.valueOf(end - start));
   }
 }

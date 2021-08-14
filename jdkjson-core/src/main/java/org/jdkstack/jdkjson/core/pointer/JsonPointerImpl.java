@@ -110,7 +110,7 @@ public class JsonPointerImpl {
     for (int i = 0; i < 20000000; i++) {
       //  test("/abc/dddd/a~1b/ad~0ddd");
       //parse("/abc/dddd/a~1b/ad~0ddd");
-       JsonPointerV1.path("/abc/dddd/a~1b/ad~0ddd");
+       //JsonPointerV1.path("/abc/dddd/a~1b/ad~0ddd");
     }
     long end = System.currentTimeMillis();
     throw new JsonRuntimeException(String.valueOf(end - start));

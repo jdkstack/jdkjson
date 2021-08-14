@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.jdkstack.jdkjson.core.cache.LruV1;
 import org.jdkstack.jdkjson.core.common.Ascii;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
@@ -23,6 +24,11 @@ import org.jdkstack.jdkjson.core.reader.Constants;
 public class JsonReaderV2 extends AbstractJsonReaderV2 {
   /** LRU缓存类. */
   private static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
+  /** LRU缓存类. */
+  private static final LruV1<String, Map<String, Object>> LRUV1_MAP =
+      new LruV1<>(Constants.CAPACITY);
+  /** LRU缓存类. */
+  private static final LruV1<String, List<Object>> LRUV1_LIST = new LruV1<>(Constants.CAPACITY);
   /** 换行的第一个字符的位置,默认值0. */
   private int position;
   /** 当前行号,当前处理第几行,默认值第一行. */
@@ -81,7 +87,7 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
    * @return Object Object.
    * @author admin
    */
-  public Object deserialize2List() {
+  public List<Object> deserialize2List() {
     return array();
   }
 
@@ -93,8 +99,54 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
    * @return Object Object.
    * @author admin
    */
-  public Object deserialize2Map() {
+  public Map<String, Object> deserialize2Map() {
     return object();
+  }
+
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串list|map.
+   *
+   * @return Object Object.
+   * @author admin
+   */
+  public List<Object> deserialize2ListLru() {
+    // 查询LRU缓存是否存在.
+    List<Object> obj = LRUV1_LIST.get(sequence);
+    // 不存在.
+    if (obj == null) {
+      // 解析json字符串,返回对象array.
+      List<Object> value = array();
+      // 放入LRU缓存中.
+      LRUV1_LIST.put(sequence, value);
+      // 赋值当前对象object.
+      obj = value;
+    }
+    return obj;
+  }
+
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串list|map.
+   *
+   * @return Object Object.
+   * @author admin
+   */
+  public Map<String, Object> deserialize2MapLru() {
+    // 查询LRU缓存是否存在.
+    Map<String, Object> obj = LRUV1_MAP.get(sequence);
+    // 不存在.
+    if (obj == null) {
+      // 解析json字符串,返回对象object.
+      Map<String, Object> value = object();
+      // 放入LRU缓存中.
+      LRUV1_MAP.put(sequence, value);
+      // 赋值当前对象object.
+      obj = value;
+    }
+    return obj;
   }
 
   /**
@@ -274,10 +326,10 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
       }
       index++;
     }
-    // 字符串数字.
+    // 字符串数字. 比StringBuilder高效1倍.
     String substring = sequence.substring(start, index);
     Number number;
-    // 如果包含逗号.
+    // 如果包含,循环的时候处理?.
     if (substring.contains(Constants.COMMA)) {
       number = new BigDecimal(substring);
     } else {
