@@ -3,7 +3,14 @@ package org.jdkstack.jdkjson.jmh.jsoniter;
 import com.jsoniter.JsonIterator;
 import com.jsoniter.output.JsonStream;
 
-public class JsoniterUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class JsoniterUtil {
 
   private JsoniterUtil() {
     //

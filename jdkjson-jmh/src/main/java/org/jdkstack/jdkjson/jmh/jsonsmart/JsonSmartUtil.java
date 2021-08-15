@@ -2,7 +2,17 @@ package org.jdkstack.jdkjson.jmh.jsonsmart;
 
 import net.minidev.json.JSONValue;
 
-public class JsonSmartUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class JsonSmartUtil {
+
+  private JsonSmartUtil() {}
+
   public static String bean2Json(Object obj) {
     return JSONValue.toJSONString(obj);
   }

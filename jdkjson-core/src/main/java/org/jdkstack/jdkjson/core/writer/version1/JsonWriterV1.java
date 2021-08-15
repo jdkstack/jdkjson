@@ -1,18 +1,28 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.writer.version1;
 
-import java.util.List;
 import java.util.Map;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 
-public class JsonWriterV1 extends AbstractJsonParser {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public class JsonWriterV1 {
 
-  // 序列化map|list->json.
-  public String serialize() {
-    return null;
-  }
-
-  // 序列化map->json.
+  /**
+   * 序列化.
+   *
+   * <p>map.
+   *
+   * @param map map.
+   * @return String String.
+   * @author admin
+   */
   public static String map2serialize(Map<String, Object> map) {
-    StringBuilder buf = new StringBuilder(100);
+    StringBuilder buf = new StringBuilder(AsciiV1.ASCII_64);
     buf.append('{');
     String separator = "";
     for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -41,25 +51,44 @@ public class JsonWriterV1 extends AbstractJsonParser {
     return buf.toString();
   }
 
-  // 序列化list->json.
-  public static String list2serialize(List<Object> list) {
-    StringBuilder buf = new StringBuilder(100);
+  /**
+   * 序列化.
+   *
+   * <p>list.
+   *
+   * @param list list 对象.
+   * @return String String.
+   * @author admin
+   */
+  public static String list2serialize(final Iterable<Object> list) {
+    StringBuilder buf = new StringBuilder(AsciiV1.ASCII_64);
     buf.append('[');
     String separator = "";
-    for (int i = 0; i < list.size(); i++) {
+    for (Object o : list) {
       buf.append(separator);
-      Object value = list.get(i);
-      if (value instanceof String) {
+      if (o instanceof String) {
         buf.append('"');
-        buf.append(value);
+        buf.append(o);
         buf.append('"');
       } else {
         // 需要递归处理.
-        buf.append(value);
+        buf.append(o);
       }
       separator = ",";
     }
     buf.append(']');
     return buf.toString();
+  }
+
+  /**
+   * 序列化.
+   *
+   * <p>list|map对象.
+   *
+   * @return String String.
+   * @author admin
+   */
+  public String serialize() {
+    return null;
   }
 }

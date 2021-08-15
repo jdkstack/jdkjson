@@ -1,6 +1,13 @@
-package org.jdkstack.jdkjson.core;
+package org.jdkstack.jdkjson.core.path;
 
-public class JsonPathSyntax {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class JsonPathSyntax {
   /** the root object. */
   private static final char ROOT = '$';
   /** the current object. */
@@ -24,4 +31,8 @@ public class JsonPathSyntax {
   private static final char MINUS = '-';
   private static final char SINGLE_QUOTE = '\'';
   private static final char DOUBLE_QUOTE = '"';
+
+  private JsonPathSyntax() {
+    //
+  }
 }

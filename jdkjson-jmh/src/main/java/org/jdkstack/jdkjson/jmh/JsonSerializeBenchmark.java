@@ -1,6 +1,12 @@
 package org.jdkstack.jdkjson.jmh;
 
-import org.jdkstack.jdkjson.core.JsonWriterV1;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
+import org.jdkstack.jdkjson.core.writer.version1.JsonWriterV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
@@ -22,12 +28,6 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 /**
  * How run this?
  *
@@ -39,41 +39,8 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 5, time = 1)
 @Measurement(iterations = 5, time = 1)
 public class JsonSerializeBenchmark {
-  Map<String, Object> map = new HashMap<>();
-  List<Object> list = new ArrayList<>();
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Setup(Level.Trial)
-  public void setup() {
-    //
-    map.put("age", 24);
-    map.put("coat", "Nike");
-    map.put("true", true);
-    map.put("null1", null);
-
-    list.add(123);
-    list.add("123123");
-    list.add(true);
-    list.add(null);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @TearDown(Level.Trial)
-  public void down() {
-    //
-  }
+  private final Map<String, Object> map = new HashMap<>();
+  private final List<Object> list = new ArrayList<>();
 
   /**
    * This is a method description.
@@ -94,8 +61,41 @@ public class JsonSerializeBenchmark {
       new Runner(opt).run();
     } catch (final RunnerException e) {
       // Conversion into unchecked exception is also allowed.
-      throw new RuntimeException("", e);
+      throw new JsonRuntimeException("", e);
     }
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Setup(Level.Trial)
+  public void setup() {
+    //
+    map.put("age", Constants.AGE);
+    map.put("coat", "Nike");
+    map.put("true", true);
+    map.put("null1", null);
+
+    list.add(Constants.AGE);
+    list.add("123123");
+    list.add(true);
+    list.add(null);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @TearDown(Level.Trial)
+  public void down() {
+    //
   }
 
   /**

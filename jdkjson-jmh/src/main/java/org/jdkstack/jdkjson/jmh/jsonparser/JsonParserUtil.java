@@ -1,9 +1,15 @@
 package org.jdkstack.jdkjson.jmh.jsonparser;
 
+import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
 
-import org.jdkstack.jdkjson.core.JsonReaderV2;
-
-public class JsonParserUtil {
+/**
+ * .
+ *
+ * <p>.
+ *
+ * @author admin
+ */
+public final class JsonParserUtil {
 
   private JsonParserUtil() {
     //
@@ -21,6 +27,6 @@ public class JsonParserUtil {
 
   public static Object json2BeanMap(String jsonStr) {
     JsonReaderV2 jsonParserV2 = new JsonReaderV2(jsonStr);
-    return jsonParserV2.deserialize2List();
+    return jsonParserV2.deserialize2Map();
   }
 }
