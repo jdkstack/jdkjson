@@ -9,6 +9,6 @@ package org.jdkstack.jdkjson.core.schema;
  *
  * @author admin
  */
-public class JsonSchema {
+public class JsonSchema implements Schema {
   //
 }

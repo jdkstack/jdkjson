@@ -2,44 +2,36 @@ package org.jdkstack.jdkjson.core.patch;
 
 import java.util.List;
 import java.util.Map;
+import org.jdkstack.jdkjson.core.patch.operation.AbstractOperation;
 
 /**
- * json patch.
+ * patch to json,将patch json文档应用到源json文档后,产生目标json文档. patch json+源json=目标json.
  *
- * <p>官方: http://jsonpatch.com/
+ * <p>官方: http://jsonpatch.com/ .
  *
- * <p>规范: https://www.rfc-editor.org/rfc/rfc6902.txt
+ * <p>规范: https://www.rfc-editor.org/rfc/rfc6902.txt .
  *
  * @author admin
  */
-public class JsonPatch implements Patch {
+public class Patch2Json implements Patch {
 
-  @Override
-  public void remove() {
+  private List<AbstractOperation> operations;
+
+  public Patch2Json() {
     //
   }
 
   @Override
-  public void replace() {
-    //
-  }
-
-  @Override
-  public void add() {}
-
-  @Override
-  public void move() {
-    //
-  }
-
-  @Override
-  public void copy() {
-    //
-  }
-
-  @Override
-  public void test() {
-    //
+  public Object apply(final Object object) {
+    // 待处理的源json或者是经过patch处理的新json.
+    Object obj = object;
+    // 循环patch json数组.
+    for (final AbstractOperation operation : operations) {
+      // 调用每一个patch的apply方法,返回值为处理过后的新json.
+      obj = operation.apply(obj);
+    }
+    // 返回最终的json,也就是最后一个patch处理过后的json.
+    return obj;
   }
 
   public void patch(List<Map<String, String>> patchs, List<Object> source) {
