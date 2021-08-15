@@ -38,9 +38,11 @@ import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 public class JsonPointerV1 extends AbstractJsonPointerV1 {
   /** json pointer的path分解成token. */
   private final List<String> tokens = new ArrayList<>();
-
+  /** json pointer path. */
   private final String path;
+  /** json pointer path length. */
   private final int length;
+  /** json pointer path token size. */
   private int size;
 
   public JsonPointerV1(final String path) {

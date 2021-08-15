@@ -7,9 +7,11 @@ import java.util.Map;
 import org.jdkstack.jdkjson.core.common.AsciiV1;
 
 /**
- * .
+ * json path 并没有官方规范,只是个人借鉴了xpath规范.
  *
- * <p>.
+ * <p>规范: https://goessner.net/articles/JsonPath/
+ *
+ * <p>实现: https://github.com/json-path/JsonPath/
  *
  * @author admin
  */

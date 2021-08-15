@@ -3,6 +3,15 @@ package org.jdkstack.jdkjson.core.merge;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * json patch merge.
+ *
+ * <p>官方: http://jsonpatch.com/
+ *
+ * <p>规范: https://www.rfc-editor.org/rfc/rfc7396.txt
+ *
+ * @author admin
+ */
 public class JsonMerge {
 
   public void intersection(final Map<String, Object> source, final Map<String, Object> target) {

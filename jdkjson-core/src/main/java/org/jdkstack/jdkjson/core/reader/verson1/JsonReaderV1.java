@@ -21,6 +21,11 @@ import org.jdkstack.jdkjson.core.reader.Constants;
 public final class JsonReaderV1 {
   /** LRU缓存类. */
   private static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
+  /** LRU缓存类. */
+  private static final LruV1<String, Map<String, Object>> LRUV1_MAP =
+      new LruV1<>(Constants.CAPACITY);
+  /** LRU缓存类. */
+  private static final LruV1<String, List<Object>> LRUV1_LIST = new LruV1<>(Constants.CAPACITY);
 
   private JsonReaderV1() {
     //
@@ -46,6 +51,58 @@ public final class JsonReaderV1 {
       Object value = value(sequence, ai);
       // 放入LRU缓存中.
       LRUV1.put(sequence, value);
+      // 赋值当前对象object.
+      obj = value;
+    }
+    return obj;
+  }
+
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串list|map.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static Map<String, Object> deserialize2MapLru(final String sequence) {
+    // 查询LRU缓存是否存在.
+    Map<String, Object> obj = LRUV1_MAP.get(sequence);
+    // 不存在.
+    if (obj == null) {
+      // 创建一个公用的位置对象.
+      AtomicInteger ai = new AtomicInteger(0);
+      // 解析json字符串,返回对象object.
+      Map<String, Object> value = object(sequence, ai);
+      // 放入LRU缓存中.
+      LRUV1_MAP.put(sequence, value);
+      // 赋值当前对象object.
+      obj = value;
+    }
+    return obj;
+  }
+
+  /**
+   * 使用LRU算法优化反序列化.
+   *
+   * <p>json字符串list|map.
+   *
+   * @param sequence json字符.
+   * @return Object Object.
+   * @author admin
+   */
+  public static List<Object> deserialize2ListLru(final String sequence) {
+    // 查询LRU缓存是否存在.
+    List<Object> obj = LRUV1_LIST.get(sequence);
+    // 不存在.
+    if (obj == null) {
+      // 创建一个公用的位置对象.
+      AtomicInteger ai = new AtomicInteger(0);
+      // 解析json字符串,返回对象object.
+      List<Object> value = array(sequence, ai);
+      // 放入LRU缓存中.
+      LRUV1_LIST.put(sequence, value);
       // 赋值当前对象object.
       obj = value;
     }

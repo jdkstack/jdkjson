@@ -2,8 +2,16 @@ package org.jdkstack.jdkjson.core.patch;
 
 import java.util.List;
 import java.util.Map;
-import org.jdkstack.jdkjson.core.pointer.JsonPointerV1;
 
+/**
+ * json patch.
+ *
+ * <p>官方: http://jsonpatch.com/
+ *
+ * <p>规范: https://www.rfc-editor.org/rfc/rfc6902.txt
+ *
+ * @author admin
+ */
 public class JsonPatch implements Patch {
 
   @Override
@@ -17,9 +25,7 @@ public class JsonPatch implements Patch {
   }
 
   @Override
-  public void add() {
-
-  }
+  public void add() {}
 
   @Override
   public void move() {
