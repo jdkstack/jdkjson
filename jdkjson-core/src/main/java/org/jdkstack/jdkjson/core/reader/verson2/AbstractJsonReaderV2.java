@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.reader.verson2.JsonReader;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 
 /**
  * .
@@ -44,45 +44,45 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
     // 处理每一个字符.
     switch (c) {
         // { .
-      case Ascii.ASCII_123:
+      case AsciiV1.ASCII_123:
         // 值是对象.
         obj = object();
         break;
         // [ .
-      case Ascii.ASCII_91:
+      case AsciiV1.ASCII_91:
         // 值是数组.
         obj = array();
         break;
         // " .
-      case Ascii.ASCII_34:
+      case AsciiV1.ASCII_34:
         // 值是字符串.
         obj = stringValue();
         break;
         // / .
-      case Ascii.ASCII_47:
+      case AsciiV1.ASCII_47:
         obj = comment();
         break;
         // F .
-      case Ascii.ASCII_70:
+      case AsciiV1.ASCII_70:
         // f .
-      case Ascii.ASCII_102:
-        index += Ascii.ASCII_5;
+      case AsciiV1.ASCII_102:
+        index += AsciiV1.ASCII_5;
         // 值是false.
         obj = false;
         break;
         // T .
-      case Ascii.ASCII_84:
+      case AsciiV1.ASCII_84:
         // t.
-      case Ascii.ASCII_116:
+      case AsciiV1.ASCII_116:
         // 值是true.
-        index += Ascii.ASCII_4;
+        index += AsciiV1.ASCII_4;
         obj = true;
         break;
         // N .
-      case Ascii.ASCII_78:
+      case AsciiV1.ASCII_78:
         // n .
-      case Ascii.ASCII_110:
-        index += Ascii.ASCII_4;
+      case AsciiV1.ASCII_110:
+        index += AsciiV1.ASCII_4;
         // 值是null.
         obj = null;
         break;
@@ -115,25 +115,25 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
       // 判断字符是什么?
       switch (c) {
           // { .
-        case Ascii.ASCII_123:
+        case AsciiV1.ASCII_123:
           // 字符串需要移动一位,从"下一位开始算起.
           // , .
-        case Ascii.ASCII_44:
+        case AsciiV1.ASCII_44:
           // , 表示还有其他的key:value对,移动一位字符.
           index++;
           // 将状态由1->2,表示有新的key:value对需要解析.
           break;
           // " .
-        case Ascii.ASCII_34:
+        case AsciiV1.ASCII_34:
           handle(obj);
           break;
           // / .
-        case Ascii.ASCII_47:
+        case AsciiV1.ASCII_47:
           // 如果是 / 则可能是注释.
           value();
           break;
           // } .
-        case Ascii.ASCII_125:
+        case AsciiV1.ASCII_125:
           // } , 表示当前的对象解析完毕,移动一位字符.
           index++;
           // 对象解析完成.
@@ -206,11 +206,11 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
     // 注释的表示.
     String comment = null;
     // 下一位是/,则是单行注释.
-    if (Ascii.ASCII_47 == c && Ascii.ASCII_47 == cnext) {
+    if (AsciiV1.ASCII_47 == c && AsciiV1.ASCII_47 == cnext) {
       comment = singleLine();
     }
     // 下一位是* 则是多行注释.
-    if (Ascii.ASCII_47 == c && Ascii.ASCII_42 == cnext) {
+    if (AsciiV1.ASCII_47 == c && AsciiV1.ASCII_42 == cnext) {
       comment = multiLine();
     }
     return comment;
@@ -226,7 +226,7 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
       // 如果当前字符是/,则判断下一位是不是/ 或者 *.
       final int next = sequence.charAt(index);
       // 下一位是*和/ 多行注释结尾.
-      if (Ascii.ASCII_42 == next && Ascii.ASCII_47 == sequence.charAt(index + 1)) {
+      if (AsciiV1.ASCII_42 == next && AsciiV1.ASCII_47 == sequence.charAt(index + 1)) {
         comment = sequence.substring(start, index - 1);
         flag = false;
       }
@@ -268,7 +268,7 @@ public abstract class AbstractJsonReaderV2 implements JsonReader {
     skip();
     final char c = sequence.charAt(index);
     // : .
-    if (Ascii.ASCII_58 != c) {
+    if (AsciiV1.ASCII_58 != c) {
       error();
     }
     index++;

@@ -1,7 +1,7 @@
 package org.jdkstack.jdkjson.core.writer.version1;
 
 import java.util.Map;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 
 /**
  * .
@@ -22,7 +22,7 @@ public class JsonWriterV1 {
    * @author admin
    */
   public static String map2serialize(Map<String, Object> map) {
-    StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
+    StringBuilder buf = new StringBuilder(AsciiV1.ASCII_64);
     buf.append('{');
     String separator = "";
     for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -61,7 +61,7 @@ public class JsonWriterV1 {
    * @author admin
    */
   public static String list2serialize(final Iterable<Object> list) {
-    StringBuilder buf = new StringBuilder(Ascii.ASCII_64);
+    StringBuilder buf = new StringBuilder(AsciiV1.ASCII_64);
     buf.append('[');
     String separator = "";
     for (Object o : list) {

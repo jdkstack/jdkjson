@@ -3,7 +3,7 @@ package org.jdkstack.jdkjson.core.pointer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 
 /**
@@ -162,7 +162,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
       // 处理每一个字符.
       switch (c) {
           // - .
-        case Ascii.ASCII_45:
+        case AsciiV1.ASCII_45:
           // 第一个字符是-,那么后面不能出现任何字符,流程结束.
           // 状态设置成非法.
           if (state != 0) {
@@ -174,7 +174,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
           arrayIndex = -1;
           break;
           // 0 .
-        case Ascii.ASCII_48:
+        case AsciiV1.ASCII_48:
           switch (state) {
               // 第一个字符是0,那么后面不能出现任何字符,流程结束.
             case 0:
@@ -198,15 +198,15 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
           }
           break;
           // 1-9 .
-        case Ascii.ASCII_49:
-        case Ascii.ASCII_50:
-        case Ascii.ASCII_51:
-        case Ascii.ASCII_52:
-        case Ascii.ASCII_53:
-        case Ascii.ASCII_54:
-        case Ascii.ASCII_55:
-        case Ascii.ASCII_56:
-        case Ascii.ASCII_57:
+        case AsciiV1.ASCII_49:
+        case AsciiV1.ASCII_50:
+        case AsciiV1.ASCII_51:
+        case AsciiV1.ASCII_52:
+        case AsciiV1.ASCII_53:
+        case AsciiV1.ASCII_54:
+        case AsciiV1.ASCII_55:
+        case AsciiV1.ASCII_56:
+        case AsciiV1.ASCII_57:
           switch (state) {
               // 第一个字符是1-9数字.
             case 0:

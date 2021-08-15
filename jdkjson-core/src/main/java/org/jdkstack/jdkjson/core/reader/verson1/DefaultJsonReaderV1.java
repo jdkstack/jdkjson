@@ -3,7 +3,7 @@ package org.jdkstack.jdkjson.core.reader.verson1;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 
 /**
@@ -78,12 +78,12 @@ public final class DefaultJsonReaderV1 {
       // 获取当前字符.
       final char c = sequence.charAt(ai.get());
       // 如果是,则退出循环.
-      if (Ascii.ASCII_44 == c) {
+      if (AsciiV1.ASCII_44 == c) {
         // 字符, 代表数字结束, 停止循环.
         break;
       }
       // 如果是. 则是小数.
-      if (Ascii.ASCII_46 == c) {
+      if (AsciiV1.ASCII_46 == c) {
         // 字符. 代表小数.
         contains = false;
       }
@@ -132,13 +132,13 @@ public final class DefaultJsonReaderV1 {
       // 位置+1.
       ai.incrementAndGet();
       // 转义字符 \ .
-      if (Ascii.ASCII_92 == c) {
+      if (AsciiV1.ASCII_92 == c) {
         char next = sequence.charAt(ai.get());
         // 跳过转义字符.
         escape(next, ai);
         // " ,如果当前字符是双引号,则截取start和当前位置之间的字符.
       }
-      if (Ascii.ASCII_34 == c) {
+      if (AsciiV1.ASCII_34 == c) {
         // 返回这个区间的字符串.
         stringValue = sequence.substring(start, ai.get() - 1);
         // 将循环退出标识设置成false.
@@ -193,7 +193,7 @@ public final class DefaultJsonReaderV1 {
     // 之后获取一个字符.
     final char c = sequence.charAt(ai.get());
     // 如果这个在字符不是:.
-    if (c != Ascii.ASCII_58) {
+    if (c != AsciiV1.ASCII_58) {
       throw new JsonRuntimeException("json不合法.");
     }
     // 位置+1.

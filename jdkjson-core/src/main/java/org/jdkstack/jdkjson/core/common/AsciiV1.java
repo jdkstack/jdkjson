@@ -13,7 +13,7 @@ package org.jdkstack.jdkjson.core.common;
  *
  * @author admin
  */
-public final class Ascii {
+public final class AsciiV1 {
   /** 00000000 0 00 NUL (NULL) 空字符. */
   public static final int ASCII_0 = 0;
   /** 00000001 1 01 SOH (Start Of Headling) 标题开始. */
@@ -271,7 +271,7 @@ public final class Ascii {
   /** 01111111 127 7F DEL (Delete) 删除. */
   public static final int ASCII_127 = 127;
 
-  private Ascii() {
+  private AsciiV1() {
     //
   }
 }

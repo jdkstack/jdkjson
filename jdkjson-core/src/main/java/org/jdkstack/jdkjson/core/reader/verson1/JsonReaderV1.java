@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jdkstack.jdkjson.core.cache.LruV1;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
@@ -135,7 +135,7 @@ public final class JsonReaderV1 {
         // 代表 false开始.
       case 'F':
       case 'f':
-        ai.getAndAdd(Ascii.ASCII_5);
+        ai.getAndAdd(AsciiV1.ASCII_5);
         // 值是false.
         obj = false;
         break;
@@ -143,13 +143,13 @@ public final class JsonReaderV1 {
       case 'T':
       case 't':
         // 值是true.
-        ai.getAndAdd(Ascii.ASCII_4);
+        ai.getAndAdd(AsciiV1.ASCII_4);
         obj = true;
         break;
         // 代表null开始.
       case 'N':
       case 'n':
-        ai.getAndAdd(Ascii.ASCII_4);
+        ai.getAndAdd(AsciiV1.ASCII_4);
         // 值是null.
         obj = null;
         break;

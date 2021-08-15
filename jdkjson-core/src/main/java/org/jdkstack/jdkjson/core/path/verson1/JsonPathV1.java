@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 
 /**
  * .
@@ -40,20 +40,20 @@ public class JsonPathV1 {
       // 判断字符是什么?
       switch (c) {
           // [ .
-        case Ascii.ASCII_91:
+        case AsciiV1.ASCII_91:
           // 移动一位字符.
           // , .
-        case Ascii.ASCII_44:
+        case AsciiV1.ASCII_44:
           index++;
           // 数组还有其他的元素等待解析.
           break;
           // / .
-        case Ascii.ASCII_47:
+        case AsciiV1.ASCII_47:
           // 如果是 / 则可能是注释.
           value();
           break;
           // ] .
-        case Ascii.ASCII_93:
+        case AsciiV1.ASCII_93:
           index++;
           // 数组解析完毕,返回数组对象.
           flag = false;
@@ -83,12 +83,12 @@ public class JsonPathV1 {
       // 处理每一个字符.
       switch (c) {
           // { .     {            }  对象.
-        case Ascii.ASCII_123:
+        case AsciiV1.ASCII_123:
           // 值是对象.
           obj = object();
           break;
           // [ .    [            ]  数组.
-        case Ascii.ASCII_91:
+        case AsciiV1.ASCII_91:
           // 值是数组.
           obj = array();
           break;
@@ -127,12 +127,12 @@ public class JsonPathV1 {
     // 处理每一个字符.
     switch (c) {
         // { .     {            }  对象.
-      case Ascii.ASCII_123:
+      case AsciiV1.ASCII_123:
         // 值是对象.
         obj = object();
         break;
         // [ .    [            ]  数组.
-      case Ascii.ASCII_91:
+      case AsciiV1.ASCII_91:
         // 值是数组.
         obj = array();
         break;
@@ -163,27 +163,27 @@ public class JsonPathV1 {
       // 判断字符是什么?
       switch (c) {
           // { .
-        case Ascii.ASCII_123:
+        case AsciiV1.ASCII_123:
           // 字符串需要移动一位,从"下一位开始算起.
           // , .
-        case Ascii.ASCII_44:
+        case AsciiV1.ASCII_44:
           // , 表示还有其他的key:value对,移动一位字符.
           index++;
           // 将状态由1->2,表示有新的key:value对需要解析.
           break;
           // " .
-        case Ascii.ASCII_34:
+        case AsciiV1.ASCII_34:
           // ' .
-        case Ascii.ASCII_39:
+        case AsciiV1.ASCII_39:
           handle(obj);
           break;
           // / .
-        case Ascii.ASCII_47:
+        case AsciiV1.ASCII_47:
           // 如果是 / 则可能是注释.
           value();
           break;
           // } .
-        case Ascii.ASCII_125:
+        case AsciiV1.ASCII_125:
           // } , 表示当前的对象解析完毕,移动一位字符.
           index++;
           // 对象解析完成.
@@ -214,7 +214,7 @@ public class JsonPathV1 {
 
     final char c = sequence.charAt(index);
     // : .
-    if (Ascii.ASCII_58 != c) {}
+    if (AsciiV1.ASCII_58 != c) {}
 
     index++;
   }
@@ -232,12 +232,12 @@ public class JsonPathV1 {
       final char c = sequence.charAt(index);
       index++;
       // 转义字符 \ .
-      if (Ascii.ASCII_92 == c) {
+      if (AsciiV1.ASCII_92 == c) {
         char next = sequence.charAt(index);
         //
       }
       // "或者' ,如果当前字符是双引号或者',则截取start和当前位置之间的字符.
-      if (Ascii.ASCII_34 == c || Ascii.ASCII_39 == c) {
+      if (AsciiV1.ASCII_34 == c || AsciiV1.ASCII_39 == c) {
         // 返回这个区间的字符串.
         stringValue = sequence.substring(start, index - 1);
         // 将循环退出标识设置成false.

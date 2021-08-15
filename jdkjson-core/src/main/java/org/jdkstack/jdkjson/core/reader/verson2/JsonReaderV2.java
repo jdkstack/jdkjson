@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.core.cache.LruV1;
-import org.jdkstack.jdkjson.core.common.Ascii;
+import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.Constants;
 
@@ -162,7 +162,7 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
     final String lineSeparator = System.lineSeparator();
     // 异常行-异常字符的长度.
     int len = index - position;
-    final StringBuilder sb = new StringBuilder(Ascii.ASCII_64);
+    final StringBuilder sb = new StringBuilder(AsciiV1.ASCII_64);
     sb.append("Parse error at row: ").append(line).append(", ").append("column: ").append(len);
     sb.append(lineSeparator);
     // 从当前行的头-异常位置.
@@ -237,20 +237,20 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
       // 判断字符是什么?
       switch (c) {
           // [ .
-        case Ascii.ASCII_91:
+        case AsciiV1.ASCII_91:
           // 移动一位字符.
           // , .
-        case Ascii.ASCII_44:
+        case AsciiV1.ASCII_44:
           index++;
           // 数组还有其他的元素等待解析.
           break;
           // / .
-        case Ascii.ASCII_47:
+        case AsciiV1.ASCII_47:
           // 如果是 / 则可能是注释.
           value();
           break;
           // ] .
-        case Ascii.ASCII_93:
+        case AsciiV1.ASCII_93:
           index++;
           // 数组解析完毕,返回数组对象.
           flag = false;
@@ -290,13 +290,13 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
       final char c = sequence.charAt(index);
       index++;
       // 转义字符 \ .
-      if (Ascii.ASCII_92 == c) {
+      if (AsciiV1.ASCII_92 == c) {
         char next = sequence.charAt(index);
         // 跳过转义字符.
         escape(next);
       }
       // " ,如果当前字符是双引号,则截取start和当前位置之间的字符.
-      if (Ascii.ASCII_34 == c) {
+      if (AsciiV1.ASCII_34 == c) {
         // 返回这个区间的字符串.
         stringValue = sequence.substring(start, index - 1);
         // 将循环退出标识设置成false.
@@ -320,7 +320,7 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
     final int start = index;
     while (index < length) {
       final char c = sequence.charAt(index);
-      if (Ascii.ASCII_44 == c) {
+      if (AsciiV1.ASCII_44 == c) {
         // 字符, 代表数字结束, 停止循环.
         break;
       }
@@ -329,8 +329,8 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
     // 字符串数字. 比StringBuilder高效1倍.
     String substring = sequence.substring(start, index);
     Number number;
-    // 如果包含,循环的时候处理?.
-    if (substring.contains(Constants.COMMA)) {
+    // 如果包含'.',循环的时候处理,性能还是差一点?.
+    if (substring.contains(Constants.FULL_STOP)) {
       number = new BigDecimal(substring);
     } else {
       number = new BigInteger(substring);
