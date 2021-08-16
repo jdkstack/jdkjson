@@ -1,6 +1,6 @@
 package org.jdkstack.jdkjson.core.reader.value;
 
-import org.jdkstack.jdkjson.core.writer.value.Value;
+import org.jdkstack.jdkjson.api.writer.value.Value;
 
 public class NullValue implements Value {
 

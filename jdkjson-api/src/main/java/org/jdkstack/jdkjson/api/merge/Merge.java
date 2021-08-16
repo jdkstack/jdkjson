@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.merge;
+package org.jdkstack.jdkjson.api.merge;
 
 import java.util.List;
 import java.util.Map;

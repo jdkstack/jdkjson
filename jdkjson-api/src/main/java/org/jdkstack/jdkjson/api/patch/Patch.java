@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.patch;
+package org.jdkstack.jdkjson.api.patch;
 
 public interface Patch {
   Object apply(Object object);

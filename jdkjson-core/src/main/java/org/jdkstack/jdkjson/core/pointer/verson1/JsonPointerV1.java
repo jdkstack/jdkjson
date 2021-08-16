@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.pointer;
+package org.jdkstack.jdkjson.core.pointer.verson1;
 
 import java.util.ArrayList;
 import java.util.List;

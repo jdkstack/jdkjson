@@ -2,6 +2,7 @@ package org.jdkstack.jdkjson.core.patch;
 
 import java.util.List;
 import java.util.Map;
+import org.jdkstack.jdkjson.api.patch.Patch;
 import org.jdkstack.jdkjson.core.patch.operation.AbstractOperation;
 
 /**
