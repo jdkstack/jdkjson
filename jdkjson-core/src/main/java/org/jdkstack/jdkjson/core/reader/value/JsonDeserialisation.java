@@ -16,22 +16,26 @@ public class JsonDeserialisation {
   private final Map<Class<?>, Value> deserialisation = new HashMap<>();
 
   public JsonDeserialisation() {
-    deserialisation.put(int[].class, new BooleanValue());
-    deserialisation.put(Integer[].class, new BooleanValue());
-    deserialisation.put(short[].class, new BooleanValue());
-    deserialisation.put(Short[].class, new BooleanValue());
-    deserialisation.put(long[].class, new BooleanValue());
-    deserialisation.put(Long[].class, new BooleanValue());
-    deserialisation.put(byte[].class, new BooleanValue());
-    deserialisation.put(Byte[].class, new BooleanValue());
-    deserialisation.put(char[].class, new BooleanValue());
-    deserialisation.put(Character[].class, new BooleanValue());
-    deserialisation.put(float[].class, new BooleanValue());
-    deserialisation.put(Float[].class, new BooleanValue());
-    deserialisation.put(double[].class, new BooleanValue());
-    deserialisation.put(Double[].class, new BooleanValue());
-    deserialisation.put(boolean[].class, new BooleanValue());
-    deserialisation.put(Boolean[].class, new BooleanValue());
+    init();
+  }
+
+  private void init() {
+    deserialisation.put(int[].class, new CommonValue());
+    deserialisation.put(Integer[].class, new CommonValue());
+    deserialisation.put(short[].class, new CommonValue());
+    deserialisation.put(Short[].class, new CommonValue());
+    deserialisation.put(long[].class, new CommonValue());
+    deserialisation.put(Long[].class, new CommonValue());
+    deserialisation.put(byte[].class, new CommonValue());
+    deserialisation.put(Byte[].class, new CommonValue());
+    deserialisation.put(char[].class, new CommonValue());
+    deserialisation.put(Character[].class, new CommonValue());
+    deserialisation.put(float[].class, new CommonValue());
+    deserialisation.put(Float[].class, new CommonValue());
+    deserialisation.put(double[].class, new CommonValue());
+    deserialisation.put(Double[].class, new CommonValue());
+    deserialisation.put(boolean[].class, new CommonValue());
+    deserialisation.put(Boolean[].class, new CommonValue());
   }
 
   /**

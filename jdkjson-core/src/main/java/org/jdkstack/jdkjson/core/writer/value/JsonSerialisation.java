@@ -20,18 +20,22 @@ public class JsonSerialisation {
   private final Map<Class<?>, Value> serialisation = new HashMap<>();
 
   public JsonSerialisation() {
+    init();
+  }
+
+  private void init() {
     serialisation.put(String.class, new StringValue());
     serialisation.put(List.class, new ListValue());
     serialisation.put(Map.class, new MapValue());
     serialisation.put(ArrayList.class, new ListValue());
     serialisation.put(HashMap.class, new MapValue());
-    serialisation.put(Integer.class, new NumberValue());
-    serialisation.put(Double.class, new NumberValue());
-    serialisation.put(Long.class, new NumberValue());
-    serialisation.put(BigInteger.class, new NumberValue());
-    serialisation.put(BigDecimal.class, new NumberValue());
-    serialisation.put(Short.class, new NumberValue());
-    serialisation.put(Boolean.class, new BooleanValue());
+    serialisation.put(Integer.class, new CommonValue());
+    serialisation.put(Double.class, new CommonValue());
+    serialisation.put(Long.class, new CommonValue());
+    serialisation.put(BigInteger.class, new CommonValue());
+    serialisation.put(BigDecimal.class, new CommonValue());
+    serialisation.put(Short.class, new CommonValue());
+    serialisation.put(Boolean.class, new CommonValue());
   }
 
   /**
