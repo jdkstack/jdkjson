@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jdkstack.jdkjson.core.writer.value.JsonSerialisation;
 import org.jdkstack.jdkjson.api.writer.value.Value;
+import org.jdkstack.jdkjson.core.writer.value.JsonSerialisation;
 
 /**
  * .
@@ -78,7 +78,7 @@ public class JsonWriterV2 {
       // 从缓存中获取具体执行类.
       Value value = JSON_SERIALISATION.getValue(clz);
       // 执行具体json value值的业务逻辑.
-      value.exe(obj, sb);
+      value.serialisation(obj, sb);
     }
   }
 

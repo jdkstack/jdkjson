@@ -6,7 +6,7 @@ import org.jdkstack.jdkjson.core.writer.version2.JsonWriterV2;
 public class StringValue implements Value {
 
   @Override
-  public void exe(Object obj, StringBuilder sb) {
+  public void serialisation(Object obj, StringBuilder sb) {
     JsonWriterV2.stringValue(obj, sb);
   }
 }

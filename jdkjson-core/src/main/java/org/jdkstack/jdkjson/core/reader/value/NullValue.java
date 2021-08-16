@@ -5,7 +5,7 @@ import org.jdkstack.jdkjson.api.reader.value.Value;
 public class NullValue implements Value {
 
   @Override
-  public void exe(Object obj, StringBuilder sb) {
+  public void deserialisation(Object obj, StringBuilder sb) {
     sb.append(obj);
   }
 }
