@@ -1,7 +1,5 @@
 package org.jdkstack.jdkjson.core.writer.version2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value.Value;
@@ -152,38 +150,5 @@ public class JsonWriterV2 {
     }
     //
     sb.append("]");
-  }
-
-  public static void main(String[] args) {
-    Map<String, Object> map = new HashMap<>();
-    Map<String, Object> map1 = new HashMap<>();
-    List list1 = new ArrayList();
-    list1.add("123");
-    list1.add(null);
-    list1.add(false);
-    Map<String, Object> map3 = new HashMap<>();
-    map3.put("xxx", new ArrayList<>());
-    list1.add(map3);
-    List<String> list3 = new ArrayList<>();
-    list3.add("222");
-    list1.add(list3);
-    map1.put("f", list1);
-    map1.put("f1", null);
-    map.put("f", map1);
-
-    long start = System.currentTimeMillis();
-
-    for (int i = 0; i < 10000000; i++) {
-      // String s = JSONValue.toJSONString(map);
-      String serialize = JsonWriterV2.map2serialize(map);
-    }
-    long end = System.currentTimeMillis();
-    System.out.println(end - start);
-
-    /*try {
-      Thread.sleep(999999);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }*/
   }
 }
