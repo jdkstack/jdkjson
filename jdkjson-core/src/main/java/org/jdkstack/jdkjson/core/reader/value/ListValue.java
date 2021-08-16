@@ -1,13 +1,11 @@
 package org.jdkstack.jdkjson.core.reader.value;
 
-import java.util.List;
-import org.jdkstack.jdkjson.api.writer.value.Value;
-import org.jdkstack.jdkjson.core.writer.version2.JsonWriterV2;
+import org.jdkstack.jdkjson.api.reader.value.Value;
 
 public class ListValue implements Value {
 
   @Override
   public void exe(Object obj, StringBuilder sb) {
-    JsonWriterV2.array((List) obj, sb);
+    //
   }
 }
