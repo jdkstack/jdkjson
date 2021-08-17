@@ -59,6 +59,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return String String.
    * @author admin
    */
+  @Override
   public String decode(String token) {
     // 初始化容量需要再次测试(是否应该分配对象?).
     final StringBuilder sb = new StringBuilder(25);
@@ -109,7 +110,8 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return String String.
    * @author admin
    */
-  private String encode(String token) {
+  @Override
+  public String encode(String token) {
     //    // 初始化容量需要再次测试.
     final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
@@ -147,6 +149,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return String String.
    * @author admin
    */
+  @Override
   public int arrayIndex(String token) {
     int len = token.length();
     // 当前被处理的json pointer字符位置.
@@ -254,6 +257,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    *
    * @author admin
    */
+  @Override
   public void path() {
     int index = 0;
     int state = 0;
@@ -316,6 +320,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return Object json value.
    * @author admin
    */
+  @Override
   public Object value(final Object json) {
     // 当前json完整对象,复制一份对象,以后操作都在这个current对象的基础上.
     Object current = json;
