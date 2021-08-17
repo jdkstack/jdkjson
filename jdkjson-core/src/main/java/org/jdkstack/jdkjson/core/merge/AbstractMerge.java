@@ -1,5 +1,7 @@
 package org.jdkstack.jdkjson.core.merge;
 
+import java.util.List;
+import java.util.Map;
 import org.jdkstack.jdkjson.api.merge.Merge;
 
 /**
@@ -12,5 +14,12 @@ import org.jdkstack.jdkjson.api.merge.Merge;
  * @author admin
  */
 public abstract class AbstractMerge implements Merge {
-  //
+
+  abstract void merge(final Map<String, Object> source, final Map<String, Object> target);
+
+  abstract void merge(final List<Object> source, final List<Object> target);
+
+  abstract void merge(final Map<String, Object> source, final List<Object> target);
+
+  abstract void merge(final List<Object> source, final Map<String, Object> target);
 }

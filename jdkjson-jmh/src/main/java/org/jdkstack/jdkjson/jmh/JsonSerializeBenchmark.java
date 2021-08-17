@@ -71,8 +71,7 @@ public class JsonSerializeBenchmark {
    */
   @Setup(Level.Trial)
   public void setup() {
-    Map<String, Object> map1 = new HashMap<>();
-    List list1 = new ArrayList();
+    List<Object> list1 = new ArrayList<>();
     list1.add("123");
     list1.add(false);
     Map<String, Object> map3 = new HashMap<>();
@@ -81,6 +80,7 @@ public class JsonSerializeBenchmark {
     List<String> list3 = new ArrayList<>();
     list3.add("222");
     list1.add(list3);
+    Map<String, Object> map1 = new HashMap<>();
     map1.put("f", list1);
     map.put("f", map1);
     //

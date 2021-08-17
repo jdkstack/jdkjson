@@ -3,10 +3,11 @@ package org.jdkstack.jdkjson.core.path;
 /**
  * .
  *
- * <p>.
+ * <p> java:S1068 .
  *
  * @author admin
  */
+@SuppressWarnings("java:S1068")
 public final class JsonPathSyntax {
   /** the root object. */
   private static final char ROOT = '$';

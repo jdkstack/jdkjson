@@ -1,8 +1,5 @@
 package org.jdkstack.jdkjson.core.pointer.verson1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 
@@ -36,18 +33,9 @@ import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
  * @author admin
  */
 public class JsonPointerV1 extends AbstractJsonPointerV1 {
-  /** json pointer的path分解成token. */
-  private final List<String> tokens = new ArrayList<>();
-  /** json pointer path. */
-  private final String path;
-  /** json pointer path length. */
-  private final int length;
-  /** json pointer path token size. */
-  private int size;
 
   public JsonPointerV1(final String path) {
-    this.path = path;
-    this.length = path.length();
+    super(path);
   }
 
   /**
@@ -59,6 +47,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return String String.
    * @author admin
    */
+  @Override
   public String decode(String token) {
     // 初始化容量需要再次测试(是否应该分配对象?).
     final StringBuilder sb = new StringBuilder(25);
@@ -109,7 +98,8 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return String String.
    * @author admin
    */
-  private String encode(String token) {
+  @Override
+  public String encode(String token) {
     //    // 初始化容量需要再次测试.
     final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
@@ -147,6 +137,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @return String String.
    * @author admin
    */
+  @Override
   public int arrayIndex(String token) {
     int len = token.length();
     // 当前被处理的json pointer字符位置.
@@ -254,6 +245,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    *
    * @author admin
    */
+  @Override
   public void path() {
     int index = 0;
     int state = 0;
@@ -305,40 +297,5 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
     }
     this.tokens.add(sb.toString());
     this.size = this.tokens.size();
-  }
-
-  /**
-   * json pointer从json对象中查询.
-   *
-   * <p>json pointer从json对象中查询.
-   *
-   * @param json json.
-   * @return Object json value.
-   * @author admin
-   */
-  public Object value(final Object json) {
-    // 当前json完整对象,复制一份对象,以后操作都在这个current对象的基础上.
-    Object current = json;
-    // 循环tokens,获取每一个token对象的json value.
-    for (int idx = 1; idx < size; idx++) {
-      // 从第一个token开始.
-      final String token = tokens.get(idx);
-      // 处理json数组.
-      if (current instanceof List) {
-        // 将json对象转换成list.
-        final List<Object> list = (List<Object>) current;
-        // 从数组中获取对应index的数据.
-        current = list.get(arrayIndex(token));
-      }
-      // 处理json对象.
-      if (current instanceof Map) {
-        // 将json对象转换成map.
-        final Map<String, Object> map = (Map<String, Object>) current;
-        // 从对象中获取对应key的数据.
-        current = map.get(token);
-      }
-      // 其他类型的数据忽略,因此当前的token也忽略处理.
-    }
-    return current;
   }
 }
