@@ -63,17 +63,17 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
     // 初始化容量需要再次测试(是否应该分配对象?).
     final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
-    final int length = token.length();
+    final int len = token.length();
     // 当前被处理的json pointer字符位置.
     int index = 0;
     // 循环处理每一个字符.
-    while (index < length) {
+    while (index < len) {
       // 获取一个字符.
       char c = token.charAt(index);
       // 位置+1,检查当前是不是最后一个字符.
       int i = index + 1;
       // 如果当前字符满足'~',并且不是最后一个字符.
-      if (c == '~' && i < length) {
+      if (c == '~' && i < len) {
         // 获取下一个字符.
         final char next = token.charAt(i);
         // 如果是0.
@@ -113,11 +113,11 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
     //    // 初始化容量需要再次测试.
     final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
-    final int length = token.length();
+    final int len = token.length();
     // 当前被处理的json pointer字符位置.
     int index = 0;
     // 循环处理每一个字符.
-    while (index < length) {
+    while (index < len) {
       // 获取一个字符.
       final char c = token.charAt(index);
       // 如果当前字符满足'~'.
@@ -148,7 +148,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    * @author admin
    */
   public int arrayIndex(String token) {
-    int length = token.length();
+    int len = token.length();
     // 当前被处理的json pointer字符位置.
     int index = 0;
     // 初始化状态0.
@@ -158,7 +158,7 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
     // 循环停止标识.
     boolean flag = true;
     // 循环处理每一个字符.
-    while (index < length && flag) {
+    while (index < len && flag) {
       // 获取一个字符.
       final char c = token.charAt(index);
       // 处理每一个字符.
