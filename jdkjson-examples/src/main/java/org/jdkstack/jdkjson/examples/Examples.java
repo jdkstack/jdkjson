@@ -40,7 +40,7 @@ public final class Examples {
       // "" "/foo/0"  "/" "/a~1b"  "/c%d"  "/e^f" "/g|h"  "/i\\j"  "/k\"l"   "/ "  "/m~0n"
       JsonPointerV1 jsonPointerV1 = new JsonPointerV1("/foo/0");
       jsonPointerV1.path();
-      Object value = jsonPointerV1.value(testData);
+      jsonPointerV1.value(testData);
     }
     long end = System.currentTimeMillis();
     throw new JsonRuntimeException(String.valueOf(end - start));
