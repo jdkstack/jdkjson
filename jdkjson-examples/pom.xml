@@ -11,31 +11,10 @@
     <artifactId>jdkjson-examples</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.jdkstack</groupId>
             <artifactId>jdkjson-core</artifactId>
             <version>11.0.11</version>
             <scope>compile</scope>
         </dependency>
-      <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>fastjson</artifactId>
-        <version>1.2.46</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>javax.json</groupId>
-        <artifactId>javax.json-api</artifactId>
-        <version>1.1.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>javax.json</artifactId>
-        <version>1.1.4</version>
-      </dependency>
     </dependencies>
 </project>
