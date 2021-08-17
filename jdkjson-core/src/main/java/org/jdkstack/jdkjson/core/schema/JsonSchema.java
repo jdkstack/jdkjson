@@ -1,5 +1,7 @@
 package org.jdkstack.jdkjson.core.schema;
 
+import org.jdkstack.jdkjson.api.schema.Schema;
+
 /**
  * json schema目前状态是RFC草案,还没有正式出版RFC.
  *
@@ -9,6 +11,6 @@ package org.jdkstack.jdkjson.core.schema;
  *
  * @author admin
  */
-public class JsonSchema {
+public class JsonSchema implements Schema {
   //
 }

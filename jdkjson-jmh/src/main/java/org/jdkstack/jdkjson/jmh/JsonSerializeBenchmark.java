@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
-import org.jdkstack.jdkjson.core.writer.version1.JsonWriterV1;
-import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
-import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
+import org.jdkstack.jdkjson.core.writer.version2.JsonWriterV2;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
-import org.jdkstack.jdkjson.jmh.jsonlib.JsonLibUtil;
 import org.jdkstack.jdkjson.jmh.jsonsmart.JsonSmartUtil;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -74,6 +71,18 @@ public class JsonSerializeBenchmark {
    */
   @Setup(Level.Trial)
   public void setup() {
+    Map<String, Object> map1 = new HashMap<>();
+    List list1 = new ArrayList();
+    list1.add("123");
+    list1.add(false);
+    Map<String, Object> map3 = new HashMap<>();
+    map3.put("xxx", new ArrayList<>());
+    list1.add(map3);
+    List<String> list3 = new ArrayList<>();
+    list3.add("222");
+    list1.add(list3);
+    map1.put("f", list1);
+    map.put("f", map1);
     //
     map.put("age", Constants.AGE);
     map.put("coat", "Nike");
@@ -83,7 +92,7 @@ public class JsonSerializeBenchmark {
     list.add(Constants.AGE);
     list.add("123123");
     list.add(true);
-    list.add(null);
+    list.add(map);
   }
 
   /**
@@ -109,7 +118,7 @@ public class JsonSerializeBenchmark {
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonWriterV2List() {
-    JsonWriterV1.list2serialize(list);
+    JsonWriterV2.list2serialize(list);
   }
 
   /**
@@ -124,48 +133,6 @@ public class JsonSerializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsoniterList() {
     JsoniterUtil.bean2Json(list);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void fastJsonList() {
-    FastJsonUtil.bean2Json(list);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jacksonList() {
-    JacksonUtil.bean2Json(list);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonLibList() {
-    JsonLibUtil.bean2JsonList(list);
   }
 
   /**
@@ -193,7 +160,7 @@ public class JsonSerializeBenchmark {
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonWriterV2Map() {
-    JsonWriterV1.map2serialize(map);
+    JsonWriterV2.map2serialize(map);
   }
 
   /**
@@ -208,48 +175,6 @@ public class JsonSerializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsoniterMap() {
     JsoniterUtil.bean2Json(map);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void fastJsonMap() {
-    FastJsonUtil.bean2Json(map);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jacksonMap() {
-    JacksonUtil.bean2Json(map);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonLibMap() {
-    JsonLibUtil.bean2JsonMap(map);
   }
 
   /**
