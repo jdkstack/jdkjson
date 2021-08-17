@@ -4,9 +4,9 @@ A lightweight,high performance,open source,character parser framework.
 
 包括:
 
-JSON序列化: 只包含list,map,数字,字符串,空,布尔的处理.
+JSON序列化: 只包含LIST,MAP,数字,字符串,空,布尔的处理.
 
-JSON反序列化: 只包含list,map,数字,字符串,空,布尔的处理.
+JSON反序列化: 只包含LIST,MAP,数字,字符串,空,布尔的处理.
 
 JSON POINTER: RFC 6901 .
 
@@ -17,3 +17,5 @@ JSON2PATCH: RFC 6902 .
 PATCH2JSON: RFC 6902 .
 
 JSON MERGE: RFC 7396(包括增强部分).
+
+JSON SCHEMA: RFC草案.
