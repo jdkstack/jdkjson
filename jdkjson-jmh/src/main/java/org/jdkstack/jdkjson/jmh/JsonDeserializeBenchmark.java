@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.verson1.JsonReaderV1;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
+import org.jdkstack.jdkjson.jmh.hutooljson.HutoolJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
 import org.jdkstack.jdkjson.jmh.jsonlib.JsonLibUtil;
@@ -251,5 +252,33 @@ public class JsonDeserializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonLibList() {
     JsonLibUtil.bean2JsonList(Constants.LIST);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void ajson1HuToolList() {
+    HutoolJsonUtil.json2Bean(Constants.LIST, List.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void ajson1HuToolMap() {
+    HutoolJsonUtil.json2Bean(Constants.MAP, Map.class);
   }
 }
