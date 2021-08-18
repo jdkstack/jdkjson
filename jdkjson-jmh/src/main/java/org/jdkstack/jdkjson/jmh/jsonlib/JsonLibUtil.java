@@ -26,8 +26,11 @@ public final class JsonLibUtil {
     return jsonObject.toString();
   }
 
-  @SuppressWarnings("unchecked")
-  public static <T> T json2Bean(String jsonStr, Class<T> objClass) {
-    return (T) JSONObject.toBean(JSONObject.fromObject(jsonStr), objClass);
+  public static JSONArray json2BeanList(String jsonStr) {
+    return JSONArray.fromObject(jsonStr);
+  }
+
+  public static JSONObject json2BeanMap(String jsonStr) {
+    return JSONObject.fromObject(jsonStr);
   }
 }
