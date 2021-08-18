@@ -1,3 +1,6 @@
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/72b3499e33d440c69abd2268efa08345)](https://app.codacy.com/gh/jdkstack/jdkjson?utm_source=github.com&utm_medium=referral&utm_content=jdkstack/jdkjson&utm_campaign=Badge_Grade_Settings)
+
 A lightweight,high performance,open source,character parser framework.
 
 一个轻量级,高性能,开源的json处理器框架.
