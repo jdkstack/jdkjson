@@ -19,3 +19,6 @@ PATCH2JSON: RFC 6902 .
 JSON MERGE: RFC 7396(包括增强部分).
 
 JSON SCHEMA: RFC草案.
+
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1060df92f0734a14bef34e923a79da1b)](https://www.codacy.com/gh/jdkstack/jdkjson/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jdkstack/jdkjson&amp;utm_campaign=Badge_Grade)
