@@ -18,16 +18,4 @@ public class JsonRuntimeException extends RuntimeException {
   public JsonRuntimeException(final String message, final Throwable cause) {
     super(message, cause);
   }
-
-  public JsonRuntimeException(final Throwable cause) {
-    super(cause);
-  }
-
-  protected JsonRuntimeException(
-      final String message,
-      Throwable cause,
-      final boolean enableSuppression,
-      final boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-  }
 }
