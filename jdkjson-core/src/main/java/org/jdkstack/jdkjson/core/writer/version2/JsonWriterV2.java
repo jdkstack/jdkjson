@@ -6,7 +6,7 @@ import org.jdkstack.jdkjson.api.writer.value2.Value;
 import org.jdkstack.jdkjson.core.writer.value2.BaseValue;
 
 /**
- * .
+ * 每次序列化都新建一个对象.
  *
  * <p>.
  *

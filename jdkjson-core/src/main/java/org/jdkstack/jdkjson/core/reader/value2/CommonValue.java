@@ -1,11 +1,11 @@
 package org.jdkstack.jdkjson.core.reader.value2;
 
-import org.jdkstack.jdkjson.api.reader.value.Value;
+import org.jdkstack.jdkjson.api.reader.value2.Value;
 
 public class CommonValue implements Value {
 
   @Override
-  public void deserialisation(Object obj, StringBuilder sb) {
-    sb.append(obj);
+  public Object deserialisation() {
+    return null;
   }
 }

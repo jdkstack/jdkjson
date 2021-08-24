@@ -1,10 +1,21 @@
 package org.jdkstack.jdkjson.core.writer.value2;
 
+import java.util.List;
+import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value2.Value;
+import org.jdkstack.jdkjson.core.cache.LruV1;
+import org.jdkstack.jdkjson.core.reader.Constants;
 
 public class BaseValue implements Value {
 
   protected static final JsonSerialisation JSON_SERIALISATION = new JsonSerialisation();
+  /** LRU缓存类. */
+  protected static final LruV1<Object, String> LRUV1 = new LruV1<>(Constants.CAPACITY);
+  /** LRU缓存类. */
+  protected static final LruV1<Map<String, Object>, String> LRUV1_MAP =
+      new LruV1<>(Constants.CAPACITY);
+  /** LRU缓存类. */
+  protected static final LruV1<List<Object>, String> LRUV1_LIST = new LruV1<>(Constants.CAPACITY);
 
   @Override
   public Object serialisation(Object obj) {

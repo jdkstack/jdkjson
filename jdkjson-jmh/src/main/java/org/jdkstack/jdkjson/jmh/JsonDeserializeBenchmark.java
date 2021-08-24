@@ -5,12 +5,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.verson1.JsonReaderV1;
+import org.jdkstack.jdkjson.core.reader.verson1.JsonReaderV3;
+import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
+import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV4;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.hutooljson.HutoolJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
 import org.jdkstack.jdkjson.jmh.jsonlib.JsonLibUtil;
-import org.jdkstack.jdkjson.jmh.jsonparser.JsonParserUtil;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Level;
@@ -96,34 +98,6 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonParserV1Map() {
-    JsonReaderV1.deserialize2Map(Constants.MAP);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV2Map() {
-    JsonParserUtil.json2Bean(Constants.MAP);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsoniterMap() {
     JsoniterUtil.json2Bean(Constants.MAP, Map.class);
   }
@@ -168,34 +142,6 @@ public class JsonDeserializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonLibMap() {
     JsonLibUtil.bean2JsonMap(Constants.MAP);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonParserV1List() {
-    JsonReaderV1.deserialize2List(Constants.LIST);
-  }
-
-  /**
-   * This is a method description.
-   *
-   * <p>Another description after blank line.
-   *
-   * @author admin
-   */
-  @Benchmark
-  @BenchmarkMode(Mode.Throughput)
-  @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV2List() {
-    JsonParserUtil.json2Bean(Constants.LIST);
   }
 
   /**
@@ -280,5 +226,120 @@ public class JsonDeserializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void ajson1HuToolMap() {
     HutoolJsonUtil.json2Bean(Constants.MAP, Map.class);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonParserV1Map() {
+    JsonReaderV1.deserialize2Map(Constants.MAP);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonParserV1List() {
+    JsonReaderV1.deserialize2List(Constants.LIST);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV2Map() {
+    JsonReaderV2 jsonParserV2 = new JsonReaderV2(Constants.MAP);
+    jsonParserV2.deserialize2Map();
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV2List() {
+    JsonReaderV2 jsonParserV2 = new JsonReaderV2(Constants.LIST);
+    jsonParserV2.deserialize2List();
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonParserV3Map() {
+    JsonReaderV3.deserialize2Map(Constants.MAP);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonParserV3List() {
+    JsonReaderV3.deserialize2List(Constants.LIST);
+  }
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV4Map() {
+    JsonReaderV4 jsonParserV2 = new JsonReaderV4(Constants.MAP);
+    jsonParserV2.deserialize2Map();
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV4List() {
+    JsonReaderV4 jsonParserV2 = new JsonReaderV4(Constants.LIST);
+    jsonParserV2.deserialize2List();
   }
 }

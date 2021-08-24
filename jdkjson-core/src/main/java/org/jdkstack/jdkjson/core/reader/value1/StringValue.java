@@ -1,13 +1,11 @@
 package org.jdkstack.jdkjson.core.reader.value1;
 
-import org.jdkstack.jdkjson.api.reader.value.Value;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class StringValue implements Value {
+public class StringValue extends BaseValue {
 
   @Override
-  public void deserialisation(Object obj, StringBuilder sb) {
-    if (obj instanceof String) {
-      sb.append(obj);
-    }
+  public Object deserialisation(String sequence, AtomicInteger ai) {
+    return stringValue(sequence, ai);
   }
 }

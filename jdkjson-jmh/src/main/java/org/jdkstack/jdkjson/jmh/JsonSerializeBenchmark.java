@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.writer.version1.JsonWriterV1;
+import org.jdkstack.jdkjson.core.writer.version1.JsonWriterV3;
 import org.jdkstack.jdkjson.core.writer.version2.JsonWriterV2;
+import org.jdkstack.jdkjson.core.writer.version2.JsonWriterV4;
 import org.jdkstack.jdkjson.jmh.jsoniter.JsoniterUtil;
 import org.jdkstack.jdkjson.jmh.jsonsmart.JsonSmartUtil;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -206,6 +208,7 @@ public class JsonSerializeBenchmark {
     JsonWriterV2 jsonWriterV2 = new JsonWriterV2();
     jsonWriterV2.list2serialize(list);
   }
+
   /**
    * This is a method description.
    *
@@ -218,6 +221,62 @@ public class JsonSerializeBenchmark {
   @OutputTimeUnit(TimeUnit.SECONDS)
   public void jsonWriterV2Map() {
     JsonWriterV2 jsonWriterV2 = new JsonWriterV2();
+    jsonWriterV2.map2serialize(map);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV3List() {
+    JsonWriterV3.list2serialize(list);
+  }
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV3Map() {
+    JsonWriterV3.map2serialize(map);
+  }
+
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV4List() {
+    JsonWriterV4 jsonWriterV2 = new JsonWriterV4();
+    jsonWriterV2.list2serialize(list);
+  }
+  /**
+   * This is a method description.
+   *
+   * <p>Another description after blank line.
+   *
+   * @author admin
+   */
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @OutputTimeUnit(TimeUnit.SECONDS)
+  public void jsonWriterV4Map() {
+    JsonWriterV4 jsonWriterV2 = new JsonWriterV4();
     jsonWriterV2.map2serialize(map);
   }
 }
