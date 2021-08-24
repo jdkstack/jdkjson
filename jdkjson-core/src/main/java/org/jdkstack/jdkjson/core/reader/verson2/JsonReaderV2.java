@@ -11,9 +11,9 @@ import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
- * Json反序列化第2版.
+ * Json反序列化第2版,采用非静态方法方式解析.
  *
- * <p>采用非静态方法方式解析(需要json校验处理).
+ * <p>多个类实现业务逻辑.
  *
  * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/.
  *
@@ -24,13 +24,7 @@ import org.jdkstack.jdkjson.core.reader.Constants;
  * @author admin
  */
 public class JsonReaderV2 extends AbstractJsonReaderV2 {
-  /** LRU缓存类. */
-  private static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
-  /** LRU缓存类. */
-  private static final LruV1<String, Map<String, Object>> LRUV1_MAP =
-      new LruV1<>(Constants.CAPACITY);
-  /** LRU缓存类. */
-  private static final LruV1<String, List<Object>> LRUV1_LIST = new LruV1<>(Constants.CAPACITY);
+
   /** 换行的第一个字符的位置,默认值0. */
   private int position;
   /** 当前行号,当前处理第几行,默认值第一行. */

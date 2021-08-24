@@ -8,7 +8,7 @@ import org.jdkstack.jdkjson.core.writer.value2.BaseValue;
 /**
  * 每次序列化都新建一个对象.
  *
- * <p>.
+ * <p>多个类实现业务逻辑.
  *
  * @author admin
  */

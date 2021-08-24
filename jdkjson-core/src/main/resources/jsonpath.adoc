@@ -248,54 +248,54 @@
 |===
 |新版PATH |原版PATH
 
-|$[3]{'category'}[*].author           	       |$.store.book[*].author
+|$[3]{'category'}[*].author                                                        |$.store.book[*].author
 
-|$['*']{'author'}	                           |$..author
+|$['*']{'author'}	                                                                        |$..author
 
-|$[3]                 		                   |$.store.*
+|$[3]                 		                                                                |$.store.*
 
-|$[3]{'category'}[*]                            |//
+|$[3]{'category'}[*]                                                                    |//
 
-|$[3]{'category'}[2]                            |$.store.book[2]
+|$[3]{'category'}[2]                                                                    |$.store.book[2]
 
-|$[3]{'category'}[-2]                           |$.store.book[-2]
+|$[3]{'category'}[-2]                                                                   |$.store.book[-2]
 
-|$[3]{'category'}[0,1]                          |$.store.book[0,1]
+|$[3]{'category'}[0,1]                                                                 |$.store.book[0,1]
 
-|$[3]{'category'}[:2]                           |$.store.book[:2]
+|$[3]{'category'}[:2]                                                                   |$.store.book[:2]
 
-|$[3]{'category'}[1:2]                          |$.store.book[1:2]
+|$[3]{'category'}[1:2]                                                                 |$.store.book[1:2]
 
-|$[3]{'category'}[-2:]                          |$.store.book[-2:]
+|$[3]{'category'}[-2:]                                                                  |$.store.book[-2:]
 
-|$[3]{'category'}[2:]                           |$.store.book[2:]
+|$[3]{'category'}[2:]                                                                   |$.store.book[2:]
 
-|$[3]{'category'}[?(@.isbn)]                    |$.store.book[?(@.isbn)]
+|$[3]{'category'}[?(@.isbn)]                                                        |$.store.book[?(@.isbn)]
 
-|$[3]{'category'}[?(@.price<10)]               | $.store.book[?(@.price < 10)]
+|$[3]{'category'}[?(@.price<10)]                                                 | $.store.book[?(@.price < 10)]
 
-|$['*']{'category'}[2]                          |$..book[2]
+|$['*']{'category'}[2]                                                                  |$..book[2]
 
-|$['*']{'category'}[-2]                         |$..book[-2]
+|$['*']{'category'}[-2]                                                                 |$..book[-2]
 
-|$['*']{'category'}[0,1]                        |$..book[0,1]
+|$['*']{'category'}[0,1]                                                               |$..book[0,1]
 
-|$['*']{'category'}[:2]                         |$..book[:2]
+|$['*']{'category'}[:2]                                                                 |$..book[:2]
 
-|$['*']{'category'}[1:2]                        |$..book[1:2]
+|$['*']{'category'}[1:2]                                                               |$..book[1:2]
 
-|$['*']{'category'}[-2:]                        |$..book[-2:]
+|$['*']{'category'}[-2:]                                                                |$..book[-2:]
 
-|$['*']{'category'}[2:]                         |$..book[2:]
+|$['*']{'category'}[2:]                                                                 |$..book[2:]
 
-|$['*']{'category'}[?(@.isbn)]                  |$..book[?(@.isbn)]
+|$['*']{'category'}[?(@.isbn)]                                                      |$..book[?(@.isbn)]
 
-|$['*']{'category'}[?(@.price<=$['expensive'])] |$..book[?(@.price <= $['expensive'])]
+|$['*']{'category'}[?(@.price<=$['expensive'])]                           |$..book[?(@.price <= $['expensive'])]
 
-|$['*']{'category'}[?(@.author=~/.*REES/i)]    | $..book[?(@.author =~ /.*REES/i)]
+|$['*']{'category'}[?(@.author=~/.*REES/i)]                                 | $..book[?(@.author =~ /.*REES/i)]
 
-|$['*']              					       |$..*
+|$['*']              					      		                                   	       |$..*
 
-|$['*']{'category'}[*].length()                 |$..book.length()
+|$['*']{'category'}[*].length()                                                    |$..book.length()
 
 |===

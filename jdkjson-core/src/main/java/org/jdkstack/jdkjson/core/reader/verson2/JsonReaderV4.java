@@ -11,9 +11,9 @@ import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
- * Json反序列化第2版.
+ * Json反序列化第4版,用非静态方法方式解析.
  *
- * <p>采用非静态方法方式解析(需要json校验处理).
+ * <p>单个类实现业务逻辑.
  *
  * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/.
  *

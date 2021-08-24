@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 每次序列化都新建一个对象.
  *
- * <p>.
+ * <p>单个类实现业务逻辑.
  *
  * @author admin
  */

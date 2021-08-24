@@ -6,9 +6,9 @@ import org.jdkstack.jdkjson.api.writer.value1.Value;
 import org.jdkstack.jdkjson.core.writer.value1.BaseValue;
 
 /**
- * .
+ * Json序列化版本1,静态方法方式实现.
  *
- * <p>.
+ * <p>多个类实现业务逻辑.
  *
  * @author admin
  */

@@ -6,11 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.jdkstack.jdkjson.core.reader.value1.BaseValue;
 
 /**
- * Json反序列化第1版.
+ * Json反序列化第1版,采用静态方法方式解析.
  *
- * <p>采用静态方法方式解析(需要json校验处理).
+ * <p>多个类实现业务逻辑.
  *
- * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/. * *
+ * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/.
  *
  * <p>RFC json: https://datatracker.ietf.org/doc/rfc8259/.
  *

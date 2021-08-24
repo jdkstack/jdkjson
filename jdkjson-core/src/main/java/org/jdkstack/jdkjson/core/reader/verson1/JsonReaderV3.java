@@ -10,11 +10,15 @@ import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
- * Json反序列化第1版.
+ * Json反序列化第3版,采用静态方法方式解析.
  *
- * <p>采用静态方法方式解析(需要json校验处理).
+ * <p>单个类实现业务逻辑.
  *
- * <p>json5: https://spec.json5.org/.
+ * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/.
+ *
+ * <p>RFC json: https://datatracker.ietf.org/doc/rfc8259/.
+ *
+ * <p>https://www.json.org/json-en.html/.
  *
  * @author admin
  */

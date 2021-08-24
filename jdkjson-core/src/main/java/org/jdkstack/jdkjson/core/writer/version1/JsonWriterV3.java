@@ -5,6 +5,13 @@ import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value1.Value;
 import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisation;
 
+/**
+ * Json序列化版本3,静态方法方式实现.
+ *
+ * <p>单个类实现业务逻辑.
+ *
+ * @author admin
+ */
 public class JsonWriterV3 {
 
   private static final JsonSerialisation JSON_SERIALISATION = new JsonSerialisation();

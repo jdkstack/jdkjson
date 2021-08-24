@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.reader.verson2.JsonReader;
 import org.jdkstack.jdkjson.core.common.AsciiV1;
+import org.jdkstack.jdkjson.core.reader.value2.BaseValue;
 
 /**
  * .
@@ -13,7 +14,7 @@ import org.jdkstack.jdkjson.core.common.AsciiV1;
  *
  * @author admin
  */
-public abstract class AbstractJsonReaderV2 implements JsonReader {
+public abstract class AbstractJsonReaderV2 extends BaseValue implements JsonReader {
   /** 待处理的json字符串. */
   protected final String sequence;
   /** 待处理的json字符串长度. */
