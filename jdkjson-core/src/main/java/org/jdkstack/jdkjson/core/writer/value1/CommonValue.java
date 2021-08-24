@@ -1,6 +1,6 @@
-package org.jdkstack.jdkjson.core.writer.value;
+package org.jdkstack.jdkjson.core.writer.value1;
 
-import org.jdkstack.jdkjson.api.writer.value.Value;
+import org.jdkstack.jdkjson.api.writer.value1.Value;
 
 public class CommonValue implements Value {
 

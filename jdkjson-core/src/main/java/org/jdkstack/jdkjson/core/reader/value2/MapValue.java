@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.reader.value;
+package org.jdkstack.jdkjson.core.reader.value2;
 
 import java.util.Map;
 import org.jdkstack.jdkjson.api.reader.value.Value;

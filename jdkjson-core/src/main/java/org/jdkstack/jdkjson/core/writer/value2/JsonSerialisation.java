@@ -1,4 +1,4 @@
-package org.jdkstack.jdkjson.core.writer.value;
+package org.jdkstack.jdkjson.core.writer.value2;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jdkstack.jdkjson.api.writer.value.Value;
+import org.jdkstack.jdkjson.api.writer.value2.Value;
 
 /**
  * 序列化静态内存池.
@@ -35,7 +35,7 @@ public class JsonSerialisation {
     serialisation.put(BigInteger.class, new CommonValue());
     serialisation.put(BigDecimal.class, new CommonValue());
     serialisation.put(Short.class, new CommonValue());
-    serialisation.put(Boolean.class, new CommonValue());
+    serialisation.put(Boolean.class, new CommonValue()); 
   }
 
   /**

@@ -32,7 +32,7 @@ public final class Examples {
     testData.put("e^f", 3);
     testData.put("i\\j", 5);
     testData.put("g|h", 4);
-    testData.put("k\"l", 6);
+    testData.put("k\\\"l", 6);
     testData.put(" ", 7);
     testData.put("m~n", 8);
     long start = System.currentTimeMillis();
