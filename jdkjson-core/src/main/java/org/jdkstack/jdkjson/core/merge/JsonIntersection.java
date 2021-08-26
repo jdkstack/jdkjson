@@ -13,38 +13,22 @@ import java.util.Map;
 public class JsonIntersection extends AbstractMerge {
 
   @Override
-  public void merge(final Map<String, Object> source, final Map<String, Object> target) {
-    // 1.
-  }
-
-  @Override
-  public void merge(final List<Object> source, final List<Object> target) {
-    // 1.
-  }
-
-  @Override
-  public void merge(final Map<String, Object> source, final List<Object> target) {
-    // 1.
-  }
-
-  @Override
-  public void merge(final List<Object> source, final Map<String, Object> target) {
-    // 1.
-  }
-
-  public void intersection(final Map<String, Object> source, final Map<String, Object> target) {
+  public void execute(final Map<String, Object> source, final Map<String, Object> target) {
     //
   }
 
-  public void intersection(final List<Object> source, final List<Object> target) {
+  @Override
+  public void execute(final List<Object> source, final List<Object> target) {
     //
   }
 
-  public void intersection(final List<Object> source, final Map<String, Object> target) {
+  @Override
+  public void execute(final Map<String, Object> source, final List<Object> target) {
     //
   }
 
-  public void intersection(final Map<String, Object> source, final List<Object> target) {
+  @Override
+  public void execute(final List<Object> source, final Map<String, Object> target) {
     //
   }
 }

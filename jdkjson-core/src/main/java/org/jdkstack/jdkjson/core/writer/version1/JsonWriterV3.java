@@ -12,7 +12,7 @@ import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisation;
  *
  * @author admin
  */
-public class JsonWriterV3 {
+public final class JsonWriterV3 {
 
   private static final JsonSerialisation JSON_SERIALISATION = new JsonSerialisation();
 

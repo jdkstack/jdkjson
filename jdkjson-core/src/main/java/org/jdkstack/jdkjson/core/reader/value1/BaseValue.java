@@ -45,51 +45,6 @@ public class BaseValue implements Value {
     } else {
       obj = JSON_DESERIALISATION.getValue(c).deserialisation(sequence, ai);
     }
-/*    // 返回对象表示.
-    Object obj;
-    // 处理每一个字符.
-    switch (c) {
-        // 代表对象开始.
-      case '{':
-        // 值是对象.
-        obj = JSON_DESERIALISATION.getValue(Map.class).deserialisation(sequence, ai);
-        break;
-        // 代表数组开始.
-      case '[':
-        // 值是数组.
-        obj = JSON_DESERIALISATION.getValue(List.class).deserialisation(sequence, ai);
-        break;
-        // 代表字符串开始.
-      case '"':
-        // 值是字符串.
-        obj = JSON_DESERIALISATION.getValue(String.class).deserialisation(sequence, ai);
-        break;
-        // 代表 false开始.
-      case 'F':
-      case 'f':
-        ai.getAndAdd(AsciiV1.ASCII_5);
-        // 值是false.
-        obj = false;
-        break;
-        // 代表 true开始.
-      case 'T':
-      case 't':
-        // 值是true.
-        ai.getAndAdd(AsciiV1.ASCII_4);
-        obj = true;
-        break;
-        // 代表null开始.
-      case 'N':
-      case 'n':
-        ai.getAndAdd(AsciiV1.ASCII_4);
-        // 值是null.
-        obj = null;
-        break;
-        // 代表数字开始.
-      default:
-        obj = JSON_DESERIALISATION.getValue(Object.class).deserialisation(sequence, ai);
-        break;
-    }*/
     return obj;
   }
 
