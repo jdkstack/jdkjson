@@ -5,10 +5,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.jdkstack.jdkjson.core.cache.LruV1;
 import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
-import org.jdkstack.jdkjson.core.reader.Constants;
 
 /**
  * Json反序列化第2版,采用非静态方法方式解析.
@@ -313,20 +311,40 @@ public class JsonReaderV2 extends AbstractJsonReaderV2 {
   @Override
   public Number number() {
     skip();
+    // 数字结束标识.
+    boolean flag = true;
+    // 数字的开始.
     final int start = index;
-    while (index < length) {
+    // 是小数吗?
+    boolean isD = false;
+    while (index < length && flag) {
       final char c = sequence.charAt(index);
-      if (AsciiV1.ASCII_44 == c) {
-        // 字符, 代表数字结束, 停止循环.
-        break;
+      // 可以满足任意格式的数字.
+      switch (c) {
+        case '.':
+          isD = true;
+          break;
+          // 数字结束 .
+        case ',':
+        case '}':
+        case ']':
+        case ' ':
+        case '\n':
+        case '\t':
+        case '\r':
+          // 数字结束的标识
+          flag = false;
+          break;
+        default:
+          break;
       }
       index++;
     }
-    // 字符串数字. 比StringBuilder高效1倍.
-    String substring = sequence.substring(start, index);
+    // 可以放在switch中.
+    String substring = sequence.substring(start, index - 1);
+    // 数字.
     Number number;
-    // 如果包含'.',循环的时候处理,性能还是差一点?.
-    if (substring.contains(Constants.FULL_STOP)) {
+    if (isD) {
       number = new BigDecimal(substring);
     } else {
       number = new BigInteger(substring);

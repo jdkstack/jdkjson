@@ -38,6 +38,7 @@ public abstract class AbstractJsonReaderV2 extends BaseValue implements JsonRead
    * @author admin
    */
   public Object value() {
+    skip();
     // 获取当前字符.
     final char c = sequence.charAt(index);
     // 返回对象表示.
