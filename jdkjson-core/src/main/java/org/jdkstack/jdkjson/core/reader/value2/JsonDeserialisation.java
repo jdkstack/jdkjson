@@ -20,16 +20,7 @@ public class JsonDeserialisation {
   }
 
   private void init() {
-    deserialisation.put('{', new MapValue());
-    deserialisation.put('[', new ListValue());
-    deserialisation.put('"', new StringValue());
-    deserialisation.put('F', new FalseValue());
-    deserialisation.put('f', new FalseValue());
-    deserialisation.put('T', new TrueValue());
-    deserialisation.put('t', new TrueValue());
-    deserialisation.put('N', new NullValue());
-    deserialisation.put('n', new NullValue());
-    deserialisation.put('c', new CommonValue());
+    //
   }
 
   /**
