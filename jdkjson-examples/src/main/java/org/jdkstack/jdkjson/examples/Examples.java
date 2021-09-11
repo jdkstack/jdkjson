@@ -1,11 +1,12 @@
 package org.jdkstack.jdkjson.examples;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
-import org.jdkstack.jdkjson.core.pointer.verson1.JsonPointerV1;
+import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
 
 /**
  * .
@@ -21,26 +22,28 @@ public final class Examples {
   }
 
   public static void main(String... args) {
-    List<Object> foo = new ArrayList<>();
-    foo.add("bar");
-    foo.add("baz");
-    Map<String, Object> testData = new HashMap<>();
-    testData.put("foo", foo);
-    testData.put("", 0);
-    testData.put("a/b", 1);
-    testData.put("c%d", 2);
-    testData.put("e^f", 3);
-    testData.put("i\\j", 5);
-    testData.put("g|h", 4);
-    testData.put("k\"l", 6);
-    testData.put(" ", 7);
-    testData.put("m~n", 8);
+    StringBuilder sb = new StringBuilder(Constants.SIZE);
+    String file = "conf\\twitter.json";
+    try (BufferedReader br =
+        new BufferedReader(
+            new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+      // 先读取一行.
+      String line = br.readLine();
+      // 如果第一行不为空.
+      while (line != null) {
+        // 拼接当前行.
+        sb.append(line);
+        // 读取下一行. System.lineSeparator
+        line = br.readLine();
+      }
+    } catch (IOException e) {
+      throw new JsonRuntimeException("", e);
+    }
+    String msg = sb.toString();
     long start = System.currentTimeMillis();
     for (int i = 0; i < Constants.LOOP; i++) {
-      // "" "/foo/0"  "/" "/a~1b"  "/c%d"  "/e^f" "/g|h"  "/i\\j"  "/k\"l"   "/ "  "/m~0n"
-      JsonPointerV1 jsonPointerV1 = new JsonPointerV1("/foo/0");
-      jsonPointerV1.path();
-      jsonPointerV1.value(testData);
+      JsonReaderV2 jsonReaderV2 = new JsonReaderV2(msg);
+      jsonReaderV2.deserialize2Map();
     }
     long end = System.currentTimeMillis();
     throw new JsonRuntimeException(String.valueOf(end - start));

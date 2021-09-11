@@ -7,7 +7,7 @@ import org.jdkstack.jdkjson.api.schema.Schema;
  *
  * <p>官方: https://json-schema.org/
  *
- * <p>规范:
+ * <p>规范: http://json-schema.org/draft/2020-12/json-schema-core.html
  *
  * @author admin
  */

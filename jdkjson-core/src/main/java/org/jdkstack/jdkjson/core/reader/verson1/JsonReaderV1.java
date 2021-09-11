@@ -1,31 +1,25 @@
 package org.jdkstack.jdkjson.core.reader.verson1;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.jdkstack.jdkjson.core.cache.LruV1;
-import org.jdkstack.jdkjson.core.common.AsciiV1;
-import org.jdkstack.jdkjson.core.reader.Constants;
+import org.jdkstack.jdkjson.api.reader.verson1.JsonReader;
+import org.jdkstack.jdkjson.core.reader.value1.BaseValue;
 
 /**
- * Json反序列化第1版.
+ * Json反序列化第1版,采用静态方法方式解析.
  *
- * <p>采用静态方法方式解析(需要json校验处理).
+ * <p>多个类实现业务逻辑.
  *
- * <p>json5: https://spec.json5.org/.
+ * <p>ECMA json5(对RFC规范的扩展): https://spec.json5.org/.
+ *
+ * <p>RFC json: https://datatracker.ietf.org/doc/rfc8259/.
+ *
+ * <p>https://www.json.org/json-en.html/.
  *
  * @author admin
  */
-public final class JsonReaderV1 {
-  /** LRU缓存类. */
-  private static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
-  /** LRU缓存类. */
-  private static final LruV1<String, Map<String, Object>> LRUV1_MAP =
-      new LruV1<>(Constants.CAPACITY);
-  /** LRU缓存类. */
-  private static final LruV1<String, List<Object>> LRUV1_LIST = new LruV1<>(Constants.CAPACITY);
+public final class JsonReaderV1 extends BaseValue implements JsonReader {
 
   private JsonReaderV1() {
     //
@@ -74,7 +68,8 @@ public final class JsonReaderV1 {
       // 创建一个公用的位置对象.
       AtomicInteger ai = new AtomicInteger(0);
       // 解析json字符串,返回对象object.
-      Map<String, Object> value = object(sequence, ai);
+      Map<String, Object> value =
+          (Map) JSON_DESERIALISATION.getValue('{').deserialisation(sequence, ai);
       // 放入LRU缓存中.
       LRUV1_MAP.put(sequence, value);
       // 赋值当前对象object.
@@ -100,7 +95,7 @@ public final class JsonReaderV1 {
       // 创建一个公用的位置对象.
       AtomicInteger ai = new AtomicInteger(0);
       // 解析json字符串,返回对象object.
-      List<Object> value = array(sequence, ai);
+      List<Object> value = (List) JSON_DESERIALISATION.getValue('[').deserialisation(sequence, ai);
       // 放入LRU缓存中.
       LRUV1_LIST.put(sequence, value);
       // 赋值当前对象object.
@@ -138,7 +133,7 @@ public final class JsonReaderV1 {
     // 创建一个公用的位置对象.
     AtomicInteger ai = new AtomicInteger(0);
     // 返回数组的表示List.
-    return array(sequence, ai);
+    return JSON_DESERIALISATION.getValue('[').deserialisation(sequence, ai);
   }
 
   /**
@@ -154,169 +149,6 @@ public final class JsonReaderV1 {
     // 创建一个公用的位置对象.
     AtomicInteger ai = new AtomicInteger(0);
     // 返回对象的表示Map.
-    return object(sequence, ai);
-  }
-
-  /**
-   * json所有value值.
-   *
-   * <p>json字符串map.
-   *
-   * @param sequence json字符.
-   * @param ai ai.
-   * @return Object Object.
-   * @author admin
-   */
-  public static Object value(final String sequence, final AtomicInteger ai) {
-    // 获取当前字符.
-    final char c = sequence.charAt(ai.get());
-    // 返回对象表示.
-    Object obj;
-    // 处理每一个字符.
-    switch (c) {
-        // 代表对象开始.
-      case '{':
-        // 值是对象.
-        obj = object(sequence, ai);
-        break;
-        // 代表数组开始.
-      case '[':
-        // 值是数组.
-        obj = array(sequence, ai);
-        break;
-        // 代表字符串开始.
-      case '"':
-        // 值是字符串.
-        obj = DefaultJsonReaderV1.stringValue(sequence, ai);
-        break;
-        // 代表 false开始.
-      case 'F':
-      case 'f':
-        ai.getAndAdd(AsciiV1.ASCII_5);
-        // 值是false.
-        obj = false;
-        break;
-        // 代表 true开始.
-      case 'T':
-      case 't':
-        // 值是true.
-        ai.getAndAdd(AsciiV1.ASCII_4);
-        obj = true;
-        break;
-        // 代表null开始.
-      case 'N':
-      case 'n':
-        ai.getAndAdd(AsciiV1.ASCII_4);
-        // 值是null.
-        obj = null;
-        break;
-        // 代表数字开始.
-      default:
-        obj = DefaultJsonReaderV1.number(sequence, ai);
-        break;
-    }
-    return obj;
-  }
-
-  /**
-   * 返回一个对象.
-   *
-   * <p>json对象.
-   *
-   * @param sequence json字符串序列.
-   * @param ai json字符串序列当前需要处理的字符位置.
-   * @return Map Map.
-   * @author admin
-   */
-  public static Map<String, Object> object(final String sequence, final AtomicInteger ai) {
-    // 位置增加1.
-    ai.getAndIncrement();
-    // json字符串序列的长度.
-    int length = sequence.length();
-    // 创建一个json对象的表示.
-    Map<String, Object> obj = new HashMap<>();
-    // 循环退出的标识.
-    boolean flag = true;
-    // 循环处理字符串序列的每一个字符.
-    while (ai.get() < length && flag) {
-      // 跳过一些不想处理的字符,包括换行,空白符等.
-      DefaultJsonReaderV1.skip(sequence, ai);
-      // 获取当前位置的字符.
-      final char c = sequence.charAt(ai.get());
-      // 处理每一个字符.
-      switch (c) {
-          // 字符串开始.
-        case '"':
-          // 对象中的key.
-          final String key = DefaultJsonReaderV1.stringValue(sequence, ai);
-          // : .
-          DefaultJsonReaderV1.colon(sequence, ai);
-          // 对象中的value(可能是多种对象中的一种).
-          final Object value = value(sequence, ai);
-          // 添加.
-          obj.put(key, value);
-          break;
-          // 代表存在下一个key value对象.
-        case ',':
-          ai.getAndIncrement();
-          break;
-          // 代表对象结束.
-        case '}':
-          ai.getAndIncrement();
-          // 结束循环.
-          flag = false;
-          break;
-          // 其他字符.
-        default:
-          break;
-      }
-    }
-    return obj;
-  }
-
-  /**
-   * 返回一个数组.
-   *
-   * <p>json数组.
-   *
-   * @param sequence json字符串序列.
-   * @param ai json字符串序列当前需要处理的字符位置.
-   * @return List List.
-   * @author admin
-   */
-  public static List<Object> array(final String sequence, final AtomicInteger ai) {
-    // 位置+1.
-    ai.getAndIncrement();
-    // json字符串长度.
-    int length = sequence.length();
-    // json数组的对象表示.
-    List<Object> arr = new ArrayList<>();
-    // 退出循环的标识.
-    boolean flag = true;
-    // 循环处理每一个字符.
-    while (ai.get() < length && flag) {
-      // 跳过不需要处理的字符.
-      DefaultJsonReaderV1.skip(sequence, ai);
-      // 获取当前位置的字符.
-      final char c = sequence.charAt(ai.get());
-      // 处理每一个字符.
-      switch (c) {
-          // 代表存在下一个数组元素.
-        case ',':
-          ai.getAndIncrement();
-          break;
-          // 数组结束.
-        case ']':
-          ai.getAndIncrement();
-          flag = false;
-          break;
-          // 其他字符.
-        default:
-          Object value = value(sequence, ai);
-          arr.add(value);
-          break;
-      }
-    }
-    return arr;
+    return JSON_DESERIALISATION.getValue('{').deserialisation(sequence, ai);
   }
 }
