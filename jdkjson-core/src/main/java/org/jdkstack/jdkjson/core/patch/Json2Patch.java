@@ -11,9 +11,9 @@ import org.jdkstack.jdkjson.api.patch.Patch;
  *
  * @author admin
  */
-public class Json2Patch implements Patch {
+public final class Json2Patch implements Patch {
 
-  public Json2Patch() {
+  private Json2Patch() {
     //
   }
 
