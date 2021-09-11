@@ -6,6 +6,6 @@ public class FalseValue implements Value {
 
   @Override
   public Object deserialisation() {
-    return null;
+    return false;
   }
 }
