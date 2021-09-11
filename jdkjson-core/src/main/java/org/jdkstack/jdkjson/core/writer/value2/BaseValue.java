@@ -8,7 +8,7 @@ import org.jdkstack.jdkjson.core.reader.Constants;
 
 public class BaseValue implements Value {
 
-  protected static final JsonSerialisation JSON_SERIALISATION = new JsonSerialisation();
+  protected static final JsonSerialisationV2 JSON_SERIALISATION = new JsonSerialisationV2();
   /** LRU缓存类. */
   protected static final LruV1<Object, String> LRUV1 = new LruV1<>(Constants.CAPACITY);
   /** LRU缓存类. */

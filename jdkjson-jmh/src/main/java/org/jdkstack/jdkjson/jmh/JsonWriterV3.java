@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value1.Value;
 import org.jdkstack.jdkjson.api.writer.version2.JsonWriter;
-import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisation;
+import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisationV1;
 
 /**
  * Json序列化版本3,静态方法方式实现.
@@ -15,7 +15,7 @@ import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisation;
  */
 public final class JsonWriterV3 implements JsonWriter {
 
-  private static final JsonSerialisation JSON_SERIALISATION = new JsonSerialisation();
+  private static final JsonSerialisationV1 JSON_SERIALISATION = new JsonSerialisationV1();
 
   private JsonWriterV3() {
     //
