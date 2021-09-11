@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
-import org.jdkstack.jdkjson.core.pointer.verson1.JsonPointerV1;
+import org.jdkstack.jdkjson.pointer.verson1.JsonPointerV1;
 
 public class Pointer {
 
-  public static void main(String[] args) {
+  public static void main(String... args) {
     List<Object> foo = new ArrayList<>();
     foo.add("bar");
     foo.add("baz");
