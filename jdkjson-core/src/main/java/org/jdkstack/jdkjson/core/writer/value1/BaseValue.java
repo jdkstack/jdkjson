@@ -5,6 +5,7 @@ import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value1.Value;
 import org.jdkstack.jdkjson.core.cache.LruV1;
 import org.jdkstack.jdkjson.core.reader.Constants;
+import org.jdkstack.jdkjson.core.writer.serialisation.JsonSerialisationV1;
 
 public class BaseValue implements Value {
 

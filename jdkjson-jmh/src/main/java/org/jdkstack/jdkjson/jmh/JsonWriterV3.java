@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value1.Value;
 import org.jdkstack.jdkjson.api.writer.version2.JsonWriter;
-import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisationV1;
+import org.jdkstack.jdkjson.core.writer.serialisation.JsonSerialisationV1;
 
 /**
  * Json序列化版本3,静态方法方式实现.

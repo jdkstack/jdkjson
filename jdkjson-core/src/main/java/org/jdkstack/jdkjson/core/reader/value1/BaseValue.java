@@ -8,10 +8,11 @@ import org.jdkstack.jdkjson.core.cache.LruV1;
 import org.jdkstack.jdkjson.core.common.AsciiV1;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.Constants;
+import org.jdkstack.jdkjson.core.reader.deserialisation.JsonDeserialisationV1;
 
 public class BaseValue implements Value {
 
-  protected static final JsonDeserialisation JSON_DESERIALISATION = new JsonDeserialisation();
+  protected static final JsonDeserialisationV1 JSON_DESERIALISATION = new JsonDeserialisationV1();
   /** LRU缓存类. */
   protected static final LruV1<String, Object> LRUV1 = new LruV1<>(Constants.CAPACITY);
   /** LRU缓存类. */
