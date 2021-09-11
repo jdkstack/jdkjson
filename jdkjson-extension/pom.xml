@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>jdkjson</artifactId>
+    <groupId>org.jdkstack</groupId>
+    <version>11.0.11</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>jdkjson-extension</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>jdkjson-pointer</module>
+    <module>jdkjson-path</module>
+    <module>jdkjson-patch</module>
+    <module>jdkjson-rdf</module>
+    <module>jdkjson-schema</module>
+    <module>jdkjson-validation</module>
+    <module>jdkjson-line</module>
+  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.jdkstack</groupId>
+      <artifactId>jdkjson-core</artifactId>
+      <version>11.0.11</version>
+    </dependency>
+  </dependencies>
+</project>

@@ -12,6 +12,8 @@
         <module>jdkjson-core</module>
         <module>jdkjson-examples</module>
         <module>jdkjson-jmh</module>
+      <module>jdkjson-extension</module>
+        <module>jdkjson-extension/jdkjson-merge</module>
     </modules>
     <properties>
         <!--  1:统一字符集编码UTF-8 -->
