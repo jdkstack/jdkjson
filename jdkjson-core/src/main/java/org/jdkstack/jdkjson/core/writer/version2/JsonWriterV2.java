@@ -3,6 +3,7 @@ package org.jdkstack.jdkjson.core.writer.version2;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value2.Value;
+import org.jdkstack.jdkjson.api.writer.version2.JsonWriter;
 import org.jdkstack.jdkjson.core.writer.value2.BaseValue;
 
 /**
@@ -12,7 +13,7 @@ import org.jdkstack.jdkjson.core.writer.value2.BaseValue;
  *
  * @author admin
  */
-public class JsonWriterV2 extends BaseValue {
+public class JsonWriterV2 extends BaseValue implements JsonWriter {
 
   /**
    * 序列化.

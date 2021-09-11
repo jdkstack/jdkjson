@@ -3,6 +3,7 @@ package org.jdkstack.jdkjson.core.writer.version1;
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value1.Value;
+import org.jdkstack.jdkjson.api.writer.version2.JsonWriter;
 import org.jdkstack.jdkjson.core.writer.value1.BaseValue;
 
 /**
@@ -12,7 +13,7 @@ import org.jdkstack.jdkjson.core.writer.value1.BaseValue;
  *
  * @author admin
  */
-public final class JsonWriterV1 extends BaseValue {
+public final class JsonWriterV1 extends BaseValue implements JsonWriter {
 
   private JsonWriterV1() {
     //

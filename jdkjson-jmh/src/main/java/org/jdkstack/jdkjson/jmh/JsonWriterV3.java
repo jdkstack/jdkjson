@@ -1,8 +1,9 @@
-package org.jdkstack.jdkjson.core.writer.version1;
+package org.jdkstack.jdkjson.jmh;
 
 import java.util.List;
 import java.util.Map;
 import org.jdkstack.jdkjson.api.writer.value1.Value;
+import org.jdkstack.jdkjson.api.writer.version2.JsonWriter;
 import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisation;
 
 /**
@@ -12,7 +13,7 @@ import org.jdkstack.jdkjson.core.writer.value1.JsonSerialisation;
  *
  * @author admin
  */
-public final class JsonWriterV3 {
+public final class JsonWriterV3 implements JsonWriter {
 
   private static final JsonSerialisation JSON_SERIALISATION = new JsonSerialisation();
 

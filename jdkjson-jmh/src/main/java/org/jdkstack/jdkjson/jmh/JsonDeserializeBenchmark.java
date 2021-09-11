@@ -5,9 +5,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.jdkstack.jdkjson.core.exception.JsonRuntimeException;
 import org.jdkstack.jdkjson.core.reader.verson1.JsonReaderV1;
-import org.jdkstack.jdkjson.core.reader.verson1.JsonReaderV3;
 import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV2;
-import org.jdkstack.jdkjson.core.reader.verson2.JsonReaderV4;
 import org.jdkstack.jdkjson.jmh.fastjson.FastJsonUtil;
 import org.jdkstack.jdkjson.jmh.hutooljson.HutoolJsonUtil;
 import org.jdkstack.jdkjson.jmh.jackson.JacksonUtil;
@@ -238,7 +236,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonParserV1Map() {
+  public void jsonReaderV1Map() {
     JsonReaderV1.deserialize2Map(Constants.MAP);
   }
 
@@ -252,7 +250,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonParserV1List() {
+  public void jsonReaderV1List() {
     JsonReaderV1.deserialize2List(Constants.LIST);
   }
 
@@ -266,7 +264,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV2Map() {
+  public void jsonReaderV2Map() {
     JsonReaderV2 jsonParserV2 = new JsonReaderV2(Constants.MAP);
     jsonParserV2.deserialize2Map();
   }
@@ -281,7 +279,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV2List() {
+  public void jsonReaderV2List() {
     JsonReaderV2 jsonParserV2 = new JsonReaderV2(Constants.LIST);
     jsonParserV2.deserialize2List();
   }
@@ -296,7 +294,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonParserV3Map() {
+  public void jsonReaderV3Map() {
     JsonReaderV3.deserialize2Map(Constants.MAP);
   }
 
@@ -310,7 +308,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonParserV3List() {
+  public void jsonReaderV3List() {
     JsonReaderV3.deserialize2List(Constants.LIST);
   }
   /**
@@ -323,7 +321,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV4Map() {
+  public void jsonReaderV4Map() {
     JsonReaderV4 jsonParserV2 = new JsonReaderV4(Constants.MAP);
     jsonParserV2.deserialize2Map();
   }
@@ -338,7 +336,7 @@ public class JsonDeserializeBenchmark {
   @Benchmark
   @BenchmarkMode(Mode.Throughput)
   @OutputTimeUnit(TimeUnit.SECONDS)
-  public void jsonWriterV4List() {
+  public void jsonReaderV4List() {
     JsonReaderV4 jsonParserV2 = new JsonReaderV4(Constants.LIST);
     jsonParserV2.deserialize2List();
   }

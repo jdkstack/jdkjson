@@ -18,6 +18,7 @@ public class BaseValue implements Value {
 
   @Override
   public Object deserialisation() {
+
     return null;
   }
 }

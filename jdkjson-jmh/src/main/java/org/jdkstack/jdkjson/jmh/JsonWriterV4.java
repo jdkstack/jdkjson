@@ -1,7 +1,8 @@
-package org.jdkstack.jdkjson.core.writer.version2;
+package org.jdkstack.jdkjson.jmh;
 
 import java.util.List;
 import java.util.Map;
+import org.jdkstack.jdkjson.api.writer.version2.JsonWriter;
 
 /**
  * 每次序列化都新建一个对象.
@@ -10,7 +11,7 @@ import java.util.Map;
  *
  * @author admin
  */
-public class JsonWriterV4 {
+public class JsonWriterV4 implements JsonWriter {
 
   /**
    * 序列化.

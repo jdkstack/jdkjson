@@ -3,6 +3,7 @@ package org.jdkstack.jdkjson.core.reader.verson1;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jdkstack.jdkjson.api.reader.verson1.JsonReader;
 import org.jdkstack.jdkjson.core.reader.value1.BaseValue;
 
 /**
@@ -18,7 +19,7 @@ import org.jdkstack.jdkjson.core.reader.value1.BaseValue;
  *
  * @author admin
  */
-public final class JsonReaderV1 extends BaseValue {
+public final class JsonReaderV1 extends BaseValue implements JsonReader {
 
   private JsonReaderV1() {
     //
