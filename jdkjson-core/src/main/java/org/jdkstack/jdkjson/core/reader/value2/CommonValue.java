@@ -6,6 +6,6 @@ public class CommonValue implements Value {
 
   @Override
   public Object deserialisation() {
-    return null;
+    return "//";
   }
 }

@@ -49,10 +49,10 @@ public class JsonPointerV1 extends AbstractJsonPointerV1 {
    */
   @Override
   public String decode(String token) {
-    // 初始化容量需要再次测试(是否应该分配对象?).
-    final StringBuilder sb = new StringBuilder(25);
     // json pointer长度.
     final int len = token.length();
+    // 初始化容量需要再次测试(是否应该分配对象?).
+    final StringBuilder sb = new StringBuilder(len);
     // 当前被处理的json pointer字符位置.
     int index = 0;
     // 循环处理每一个字符.

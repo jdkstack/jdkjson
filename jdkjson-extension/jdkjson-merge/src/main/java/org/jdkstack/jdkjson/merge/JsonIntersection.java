@@ -15,20 +15,24 @@ public class JsonIntersection extends AbstractMerge {
   @Override
   public void execute(final Map<String, Object> source, final Map<String, Object> target) {
     //
+    throw new UnsupportedOperationException("交集1.");
   }
 
   @Override
   public void execute(final List<Object> source, final List<Object> target) {
     //
+    throw new UnsupportedOperationException("交集2.");
   }
 
   @Override
   public void execute(final Map<String, Object> source, final List<Object> target) {
     //
+    throw new UnsupportedOperationException("交集3.");
   }
 
   @Override
   public void execute(final List<Object> source, final Map<String, Object> target) {
     //
+    throw new UnsupportedOperationException("交集4.");
   }
 }
